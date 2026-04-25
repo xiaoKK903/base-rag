@@ -1,8 +1,9 @@
 from fastapi import APIRouter, UploadFile, File, Query
 from pydantic import BaseModel
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 from app.core import R, logger
 from app.rag.service import get_rag_service
+from app.rag.rag_config import rag_config, RAGConfig
 
 rag_router = APIRouter()
 
@@ -12,6 +13,18 @@ class QueryRequest(BaseModel):
     top_k: Optional[int] = None
     min_score: Optional[float] = None
     doc_ids: Optional[List[str]] = None
+
+
+class RAGConfigUpdate(BaseModel):
+    enable_query_rewrite: Optional[bool] = None
+    enable_keyword_search: Optional[bool] = None
+    enable_hybrid_search: Optional[bool] = None
+    enable_reranking: Optional[bool] = None
+    enable_debug: Optional[bool] = None
+    vector_weight: Optional[float] = None
+    keyword_weight: Optional[float] = None
+    rerank_top_k: Optional[int] = None
+    rerank_min_score: Optional[float] = None
 
 
 @rag_router.post("/upload")
@@ -80,13 +93,30 @@ async def query_rag(request: QueryRequest):
             for r in result.results
         ]
 
-        return R.ok(data={
+        response_data = {
             "query": result.query,
             "results": results_data,
             "context": result.context,
             "answer": result.answer,
             "metadata": result.metadata
-        })
+        }
+
+        if result.debug_info is not None:
+            response_data["debug_info"] = {
+                "original_query": result.debug_info.original_query,
+                "rewritten_query": result.debug_info.rewritten_query,
+                "is_rewritten": result.debug_info.is_rewritten,
+                "keywords": result.debug_info.keywords,
+                "vector_results": result.debug_info.vector_results,
+                "keyword_results": result.debug_info.keyword_results,
+                "hybrid_results": result.debug_info.hybrid_results,
+                "reranked_results": result.debug_info.reranked_results,
+                "vector_weight": result.debug_info.vector_weight,
+                "keyword_weight": result.debug_info.keyword_weight,
+                "feature_status": result.debug_info.feature_status
+            }
+
+        return R.ok(data=response_data)
 
     except Exception as e:
         logger.error(f"RAG查询失败: {e}")
@@ -127,17 +157,64 @@ async def query_rag_get(
             for r in result.results
         ]
 
-        return R.ok(data={
+        response_data = {
             "query": result.query,
             "results": results_data,
             "context": result.context,
             "answer": result.answer,
             "metadata": result.metadata
-        })
+        }
+
+        if result.debug_info is not None:
+            response_data["debug_info"] = {
+                "original_query": result.debug_info.original_query,
+                "rewritten_query": result.debug_info.rewritten_query,
+                "is_rewritten": result.debug_info.is_rewritten,
+                "keywords": result.debug_info.keywords,
+                "vector_results": result.debug_info.vector_results,
+                "keyword_results": result.debug_info.keyword_results,
+                "hybrid_results": result.debug_info.hybrid_results,
+                "reranked_results": result.debug_info.reranked_results,
+                "vector_weight": result.debug_info.vector_weight,
+                "keyword_weight": result.debug_info.keyword_weight,
+                "feature_status": result.debug_info.feature_status
+            }
+
+        return R.ok(data=response_data)
 
     except Exception as e:
         logger.error(f"RAG查询失败: {e}")
         return R.fail(message=f"查询失败: {str(e)}")
+
+
+@rag_router.get("/config")
+async def get_rag_config():
+    logger.info("获取RAG配置")
+    return R.ok(data=rag_config.to_dict())
+
+
+@rag_router.post("/config")
+async def update_rag_config(config_update: RAGConfigUpdate):
+    logger.info(f"更新RAG配置: {config_update}")
+    
+    update_dict = {}
+    for key, value in config_update.model_dump(exclude_unset=True).items():
+        if value is not None:
+            update_dict[key] = value
+    
+    rag_config.update_from_dict(update_dict)
+    
+    return R.ok(data=rag_config.to_dict(), message="配置已更新")
+
+
+@rag_router.post("/config/reset")
+async def reset_rag_config():
+    logger.info("重置RAG配置")
+    global rag_config
+    rag_config = RAGConfig()
+    RAGConfig._instance = rag_config
+    
+    return R.ok(data=rag_config.to_dict(), message="配置已重置为默认值")
 
 
 @rag_router.get("/documents")
@@ -186,5 +263,6 @@ async def get_stats():
         "total_vectors": rag_service.get_vector_count(),
         "chunk_size": 500,
         "chunk_overlap": 100,
-        "vector_store": "json_local"
+        "vector_store": "json_local",
+        "feature_status": rag_config.get_feature_status()
     })
