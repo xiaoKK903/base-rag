@@ -286,3 +286,25 @@ For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/St
 2026-04-25 11:54:50 | INFO     | app | Calling embedding API: 1 texts, model: text-embedding-v4
 2026-04-25 11:54:50 | INFO     | app | Embedding API response received successfully
 2026-04-25 11:54:50 | INFO     | app | Retrieved 0 results (top_k=5, min_score=0.5)
+2026-04-25 11:57:09 | INFO     | app | 获取文档列表
+2026-04-25 11:57:51 | INFO     | app | RAG查询: nihao
+2026-04-25 11:57:51 | INFO     | app | Calling embedding API: 1 texts, model: text-embedding-v4
+2026-04-25 11:57:51 | INFO     | app | Embedding API response received successfully
+2026-04-25 11:57:51 | INFO     | app | Retrieved 0 results (top_k=5, min_score=0.5)
+2026-04-25 11:58:13 | INFO     | app | RAG查询: 如何修改个人信息？
+2026-04-25 11:58:13 | INFO     | app | Calling embedding API: 1 texts, model: text-embedding-v4
+2026-04-25 11:58:13 | INFO     | app | Embedding API response received successfully
+2026-04-25 11:58:13 | INFO     | app | Retrieved 1 results (top_k=5, min_score=0.5)
+2026-04-25 11:58:30 | INFO     | app | 获取文档列表
+2026-04-25 11:58:33 | INFO     | app | RAG查询: nihao
+2026-04-25 11:58:33 | INFO     | app | Calling embedding API: 1 texts, model: text-embedding-v4
+2026-04-25 11:58:33 | INFO     | app | Embedding API response received successfully
+2026-04-25 11:58:33 | INFO     | app | Retrieved 0 results (top_k=5, min_score=0.5)
+2026-04-25 11:58:36 | INFO     | app | RAG查询: 注册
+2026-04-25 11:58:36 | INFO     | app | Calling embedding API: 1 texts, model: text-embedding-v4
+2026-04-25 11:58:36 | INFO     | app | Embedding API response received successfully
+2026-04-25 11:58:36 | INFO     | app | Retrieved 1 results (top_k=5, min_score=0.5)
+2026-04-25 11:58:50 | INFO     | app | RAG查询: 如何注册
+2026-04-25 11:58:50 | INFO     | app | Calling embedding API: 1 texts, model: text-embedding-v4
+2026-04-25 11:58:50 | INFO     | app | Embedding API response received successfully
+2026-04-25 11:58:50 | INFO     | app | Retrieved 1 results (top_k=5, min_score=0.5)
