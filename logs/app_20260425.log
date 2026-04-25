@@ -19,3 +19,34 @@
 2026-04-25 09:52:48 | INFO     | app | AI工具平台 v0.1.0 启动中...
 2026-04-25 09:52:48 | INFO     | app | 配置: DEBUG=True, PORT=8000
 2026-04-25 09:52:48 | INFO     | app | 已注册插件数量: 0
+2026-04-25 10:05:20 | INFO     | app | AI工具平台 关闭中...
+2026-04-25 10:05:22 | INFO     | app | Logger initialized. Level: DEBUG, Log file: D:\base-rag\logs\app_20260425.log
+2026-04-25 10:05:22 | INFO     | app | AI工具平台 v0.1.0 启动中...
+2026-04-25 10:05:22 | INFO     | app | 配置: DEBUG=True, PORT=8000
+2026-04-25 10:05:22 | INFO     | app | 已注册插件数量: 0
+2026-04-25 10:06:14 | INFO     | app | Logger initialized. Level: DEBUG, Log file: D:\base-rag\logs\app_20260425.log
+2026-04-25 10:06:14 | INFO     | app | AI工具平台 v0.1.0 启动中...
+2026-04-25 10:06:14 | INFO     | app | 配置: DEBUG=True, PORT=8000
+2026-04-25 10:06:14 | INFO     | app | 已注册插件数量: 0
+2026-04-25 10:08:31 | INFO     | app | AI工具平台 关闭中...
+2026-04-25 10:08:33 | INFO     | app | Logger initialized. Level: DEBUG, Log file: D:\base-rag\logs\app_20260425.log
+2026-04-25 10:08:33 | INFO     | app | AI工具平台 v0.1.0 启动中...
+2026-04-25 10:08:33 | INFO     | app | 配置: DEBUG=True, PORT=8000
+2026-04-25 10:08:33 | INFO     | app | 已注册插件数量: 0
+2026-04-25 10:08:33 | INFO     | app | AI工具平台 关闭中...
+2026-04-25 10:08:34 | INFO     | app | Logger initialized. Level: DEBUG, Log file: D:\base-rag\logs\app_20260425.log
+2026-04-25 10:08:34 | INFO     | app | AI工具平台 v0.1.0 启动中...
+2026-04-25 10:08:34 | INFO     | app | 配置: DEBUG=True, PORT=8000
+2026-04-25 10:08:34 | INFO     | app | 已注册插件数量: 0
+2026-04-25 10:08:49 | INFO     | app | Logger initialized. Level: DEBUG, Log file: D:\base-rag\logs\app_20260425.log
+2026-04-25 10:08:49 | INFO     | app | AI工具平台 v0.1.0 启动中...
+2026-04-25 10:08:49 | INFO     | app | 配置: DEBUG=True, PORT=8000
+2026-04-25 10:08:49 | INFO     | app | 已注册插件数量: 0
+2026-04-25 10:10:43 | INFO     | app | Logger initialized. Level: DEBUG, Log file: D:\base-rag\logs\app_20260425.log
+2026-04-25 10:10:44 | INFO     | app | AI工具平台 v0.1.0 启动中...
+2026-04-25 10:10:44 | INFO     | app | 配置: DEBUG=True, PORT=8000
+2026-04-25 10:10:44 | INFO     | app | 已注册插件数量: 0
+2026-04-25 10:10:56 | INFO     | app | 健康检查请求
+2026-04-25 10:11:20 | INFO     | app | 健康检查请求
+2026-04-25 10:12:40 | INFO     | app | 健康检查请求
+2026-04-25 10:12:40 | INFO     | app | 健康检查请求
