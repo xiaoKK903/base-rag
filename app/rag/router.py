@@ -195,14 +195,18 @@ async def get_rag_config():
 
 @rag_router.post("/config")
 async def update_rag_config(config_update: RAGConfigUpdate):
-    logger.info(f"更新RAG配置: {config_update}")
+    logger.info(f"收到更新RAG配置请求: {config_update}")
     
     update_dict = {}
     for key, value in config_update.model_dump(exclude_unset=True).items():
         if value is not None:
             update_dict[key] = value
     
+    logger.info(f"更新字段: {update_dict}")
+    
     rag_config.update_from_dict(update_dict)
+    
+    logger.info(f"更新后配置: {rag_config.to_dict()}")
     
     return R.ok(data=rag_config.to_dict(), message="配置已更新")
 
@@ -210,10 +214,13 @@ async def update_rag_config(config_update: RAGConfigUpdate):
 @rag_router.post("/config/reset")
 async def reset_rag_config():
     logger.info("重置RAG配置")
-    global rag_config
-    rag_config = RAGConfig()
-    RAGConfig._instance = rag_config
     
+    default_config = RAGConfig()
+    for key, value in default_config.to_dict().items():
+        if hasattr(rag_config, key) and not key.startswith('_'):
+            setattr(rag_config, key, value)
+    
+    logger.info(f"RAG配置已重置: {rag_config.to_dict()}")
     return R.ok(data=rag_config.to_dict(), message="配置已重置为默认值")
 
 

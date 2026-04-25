@@ -196,6 +196,14 @@ class RAGService:
         debug_info = RAGDebugInfo()
         debug_info.feature_status = rag_config.get_feature_status()
         debug_info.original_query = question
+        debug_info.vector_weight = rag_config.vector_weight
+        debug_info.keyword_weight = rag_config.keyword_weight
+
+        logger.info(f"RAG查询调试: enable_debug={rag_config.enable_debug}, "
+                   f"enable_query_rewrite={rag_config.enable_query_rewrite}, "
+                   f"enable_hybrid_search={rag_config.enable_hybrid_search}, "
+                   f"enable_keyword_search={rag_config.enable_keyword_search}, "
+                   f"enable_reranking={rag_config.enable_reranking}")
 
         effective_query = question
         keywords = []
@@ -235,7 +243,9 @@ class RAGService:
                 "doc_name": r.doc_name,
                 "chunk_index": r.chunk_index,
                 "text": r.text[:100] + "..." if len(r.text) > 100 else r.text,
-                "score": r.score
+                "score": r.score,
+                "original_score": r.score,
+                "normalized_score": r.score
             })
 
         if not self._keyword_index_built:
