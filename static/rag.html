@@ -336,15 +336,19 @@
             const topK = parseInt(document.getElementById('topKSelect').value);
             const useAllDocs = document.getElementById('useAllDocs').checked;
 
-            let params = `?question=${encodeURIComponent(question)}&top_k=${topK}`;
+            const requestBody = {
+                question: question,
+                top_k: topK
+            };
+
             if (!useAllDocs && selectedDocIds.length > 0) {
-                params += `&doc_ids=${selectedDocIds.join(',')}`;
+                requestBody.doc_ids = selectedDocIds;
             }
 
             const typingEl = addTypingIndicator();
 
             try {
-                const result = await App.post(`${API_BASE}/query${params}`);
+                const result = await App.post(`${API_BASE}/query`, requestBody);
 
                 typingEl.remove();
 
