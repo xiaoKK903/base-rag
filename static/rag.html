@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAG知识库检索 - AI工具平台</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <nav class="nav">
+        <a href="/">首页</a>
+        <a href="/rag" class="active">RAG检索</a>
+        <a href="/tools">插件工具</a>
+        <a href="/settings">设置</a>
+    </nav>
+
+    <div class="container" style="max-width: 1600px; margin-top: 1.5rem;">
+        <div class="rag-layout">
+            <div class="sidebar">
+                <div class="sidebar-header">
+                    <h3>📚 知识库</h3>
+                    <button class="btn btn-danger btn-outline" id="clearAllBtn" onclick="clearAllDocuments()">清空</button>
+                </div>
+                <div class="sidebar-stats" id="statsBar">
+                    <span>文档: <strong id="docCount">0</strong></span>
+                    <span>向量块: <strong id="vectorCount">0</strong></span>
+                </div>
+
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">📄</div>
+                    <div class="upload-text">
+                        <strong>点击上传</strong> 或拖放文件
+                    </div>
+                    <div class="upload-hint">支持 .txt 和 .md 格式</div>
+                    <input type="file" id="fileInput" accept=".txt,.md" style="display: none;" multiple>
+                    <div class="upload-progress hidden" id="uploadProgress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                        </div>
+                        <div style="font-size: 0.75rem; color: var(--text-light); margin-top: 0.5rem;" id="progressText">上传中...</div>
+                    </div>
+                </div>
+
+                <div class="sidebar-content" id="docList">
+                    <div class="empty-state" id="emptyDocs">
+                        <div class="empty-state-icon">📁</div>
+                        <h4>暂无文档</h4>
+                        <p>上传文档后即可进行智能检索</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-area">
+                <div class="chat-header">
+                    <h3>🔍 RAG智能检索</h3>
+                    <div class="chat-settings">
+                        <label>
+                            返回数量:
+                            <select id="topKSelect" style="width: 60px;">
+                                <option value="3">3</option>
+                                <option value="5" selected>5</option>
+                                <option value="10">10</option>
+                            </select>
+                        </label>
+                        <label>
+                            <input type="checkbox" id="useAllDocs" checked> 全部文档
+                        </label>
+                    </div>
+                </div>
+
+                <div class="chat-messages" id="chatMessages">
+                    <div class="empty-state" id="welcomeState">
+                        <div class="empty-state-icon">🤖</div>
+                        <h4>开始智能检索</h4>
+                        <p>上传文档后，输入问题即可从文档中检索相关内容</p>
+                    </div>
+                </div>
+
+                <div class="chat-input-area">
+                    <div class="chat-input-row">
+                        <textarea id="questionInput" placeholder="输入你的问题，按 Enter 发送..." rows="1"></textarea>
+                        <button class="btn btn-primary" id="sendBtn" onclick="sendQuestion()">发送</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toastContainer" class="toast-container"></div>
+    <div id="loadingOverlay" class="loading-overlay hidden">
+        <div class="spinner"></div>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+    <script>
+        const API_BASE = '/api/rag';
+        let documents = [];
+        let selectedDocIds = [];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDocuments();
+            setupUpload();
+            setupInput();
+        });
+
+        function showLoading(show) {
+            const overlay = document.getElementById('loadingOverlay');
+            overlay.classList.toggle('hidden', !show);
+        }
+
+        function setupUpload() {
+            const uploadArea = document.getElementById('uploadArea');
+            const fileInput = document.getElementById('fileInput');
+
+            uploadArea.addEventListener('click', () => fileInput.click());
+
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.classList.add('dragover');
+            });
+
+            uploadArea.addEventListener('dragleave', () => {
+                uploadArea.classList.remove('dragover');
+            });
+
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+                const files = Array.from(e.dataTransfer.files);
+                uploadFiles(files);
+            });
+
+            fileInput.addEventListener('change', (e) => {
+                const files = Array.from(e.target.files);
+                uploadFiles(files);
+                fileInput.value = '';
+            });
+        }
+
+        async function uploadFiles(files) {
+            const validFiles = files.filter(f => {
+                const ext = f.name.toLowerCase().substring(f.name.lastIndexOf('.'));
+                return ['.txt', '.md'].includes(ext);
+            });
+
+            if (validFiles.length === 0) {
+                App.toast.error('仅支持 .txt 和 .md 格式文件');
+                return;
+            }
+
+            const progressContainer = document.getElementById('uploadProgress');
+            const progressFill = document.getElementById('progressFill');
+            const progressText = document.getElementById('progressText');
+
+            progressContainer.classList.remove('hidden');
+            let uploaded = 0;
+            let failed = 0;
+
+            for (let i = 0; i < validFiles.length; i++) {
+                const file = validFiles[i];
+                progressText.textContent = `正在处理: ${file.name} (${i + 1}/${validFiles.length})`;
+                progressFill.style.width = `${(uploaded / validFiles.length) * 100}%`;
+
+                try {
+                    const formData = new FormData();
+                    formData.append('file', file);
+
+                    const response = await fetch(`${API_BASE}/upload`, {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        uploaded++;
+                        App.toast.success(`${file.name}: ${result.message}`);
+                    } else {
+                        failed++;
+                        App.toast.error(`${file.name}: ${result.message}`);
+                    }
+                } catch (e) {
+                    failed++;
+                    App.toast.error(`${file.name}: 上传失败`);
+                }
+            }
+
+            progressFill.style.width = '100%';
+            progressText.textContent = `完成: ${uploaded} 成功, ${failed} 失败`;
+
+            setTimeout(() => {
+                progressContainer.classList.add('hidden');
+                progressFill.style.width = '0%';
+            }, 2000);
+
+            await loadDocuments();
+        }
+
+        async function loadDocuments() {
+            try {
+                const response = await App.get(`${API_BASE}/documents`);
+                if (response.success) {
+                    documents = response.data.documents || [];
+                    updateDocList();
+                    updateStats(response.data.total_docs || 0, response.data.total_vectors || 0);
+                }
+            } catch (e) {
+                console.error('加载文档失败:', e);
+            }
+        }
+
+        function updateDocList() {
+            const docList = document.getElementById('docList');
+            const emptyDocs = document.getElementById('emptyDocs');
+
+            if (documents.length === 0) {
+                emptyDocs.classList.remove('hidden');
+                return;
+            }
+
+            emptyDocs.classList.add('hidden');
+
+            const existingItems = docList.querySelectorAll('.doc-item');
+            existingItems.forEach(item => item.remove());
+
+            documents.forEach(doc => {
+                const isSelected = selectedDocIds.includes(doc.doc_id);
+                const div = document.createElement('div');
+                div.className = `doc-item ${isSelected ? 'selected' : ''}`;
+                div.onclick = (e) => {
+                    if (e.target.closest('.doc-delete')) return;
+                    toggleDocSelection(doc.doc_id);
+                };
+                div.innerHTML = `
+                    <div class="doc-info">
+                        <h4>${escapeHtml(doc.doc_name)}</h4>
+                        <p>${doc.chunk_count} 个向量块</p>
+                    </div>
+                    <button class="btn btn-danger doc-delete" onclick="event.stopPropagation(); deleteDocument('${doc.doc_id}')">删除</button>
+                `;
+                docList.appendChild(div);
+            });
+        }
+
+        function toggleDocSelection(docId) {
+            const useAllDocs = document.getElementById('useAllDocs').checked;
+            if (useAllDocs) return;
+
+            const idx = selectedDocIds.indexOf(docId);
+            if (idx === -1) {
+                selectedDocIds.push(docId);
+            } else {
+                selectedDocIds.splice(idx, 1);
+            }
+            updateDocList();
+        }
+
+        function updateStats(docCount, vectorCount) {
+            document.getElementById('docCount').textContent = docCount;
+            document.getElementById('vectorCount').textContent = vectorCount;
+        }
+
+        async function deleteDocument(docId) {
+            if (!confirm('确定要删除这个文档吗？')) return;
+
+            try {
+                const response = await fetch(`${API_BASE}/documents/${docId}`, {
+                    method: 'DELETE'
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    App.toast.success('文档已删除');
+                    const idx = selectedDocIds.indexOf(docId);
+                    if (idx !== -1) selectedDocIds.splice(idx, 1);
+                    await loadDocuments();
+                } else {
+                    App.toast.error(result.message || '删除失败');
+                }
+            } catch (e) {
+                App.toast.error('删除失败');
+            }
+        }
+
+        async function clearAllDocuments() {
+            if (!confirm('确定要清空所有文档吗？此操作不可恢复。')) return;
+
+            try {
+                const response = await fetch(`${API_BASE}/clear`, {
+                    method: 'DELETE'
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    App.toast.success('已清空所有文档');
+                    selectedDocIds = [];
+                    await loadDocuments();
+                } else {
+                    App.toast.error(result.message || '清空失败');
+                }
+            } catch (e) {
+                App.toast.error('清空失败');
+            }
+        }
+
+        function setupInput() {
+            const input = document.getElementById('questionInput');
+            const sendBtn = document.getElementById('sendBtn');
+
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendQuestion();
+                }
+            });
+
+            input.addEventListener('input', () => {
+                input.style.height = 'auto';
+                input.style.height = Math.min(input.scrollHeight, 120) + 'px';
+            });
+        }
+
+        async function sendQuestion() {
+            const input = document.getElementById('questionInput');
+            const question = input.value.trim();
+
+            if (!question) return;
+
+            const welcomeState = document.getElementById('welcomeState');
+            if (welcomeState) welcomeState.classList.add('hidden');
+
+            addUserMessage(question);
+            input.value = '';
+            input.style.height = 'auto';
+
+            const topK = parseInt(document.getElementById('topKSelect').value);
+            const useAllDocs = document.getElementById('useAllDocs').checked;
+
+            let params = `?question=${encodeURIComponent(question)}&top_k=${topK}`;
+            if (!useAllDocs && selectedDocIds.length > 0) {
+                params += `&doc_ids=${selectedDocIds.join(',')}`;
+            }
+
+            const typingEl = addTypingIndicator();
+
+            try {
+                const result = await App.post(`${API_BASE}/query${params}`);
+
+                typingEl.remove();
+
+                if (result.success) {
+                    addAssistantMessage(result.data);
+                } else {
+                    addErrorMessage(result.message || '查询失败');
+                }
+            } catch (e) {
+                typingEl.remove();
+                addErrorMessage('网络错误，请稍后重试');
+            }
+        }
+
+        function addUserMessage(text) {
+            const messages = document.getElementById('chatMessages');
+            const div = document.createElement('div');
+            div.className = 'message user';
+            div.innerHTML = `
+                <div class="message-avatar">U</div>
+                <div class="message-content">
+                    <div class="message-bubble">${escapeHtml(text)}</div>
+                    <div class="message-meta">${new Date().toLocaleTimeString()}</div>
+                </div>
+            `;
+            messages.appendChild(div);
+            messages.scrollTop = messages.scrollHeight;
+        }
+
+        function addAssistantMessage(data) {
+            const messages = document.getElementById('chatMessages');
+            const div = document.createElement('div');
+            div.className = 'message assistant';
+
+            let retrievalHtml = '';
+            if (data.results && data.results.length > 0) {
+                retrievalHtml = `
+                    <div class="retrieval-info">
+                        <h5>📎 检索到 ${data.results.length} 个相关片段</h5>
+                        ${data.results.map((r, i) => `
+                            <div class="retrieval-result">
+                                <div class="retrieval-result-header">
+                                    <span class="retrieval-source">${i + 1}. ${escapeHtml(r.doc_name)}</span>
+                                    <span class="retrieval-score">相似度: ${(r.score * 100).toFixed(1)}%</span>
+                                </div>
+                                <div class="retrieval-text" id="retrieval-text-${i}">${escapeHtml(r.text)}</div>
+                                <div class="retrieval-expand" onclick="toggleExpand(${i})">展开查看</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            let answerText = '根据检索结果，最相关的文档片段已列出。';
+            if (data.results && data.results.length === 0) {
+                answerText = '未检索到相关内容，请确保已上传文档且问题与文档内容相关。';
+            }
+
+            div.innerHTML = `
+                <div class="message-avatar">AI</div>
+                <div class="message-content">
+                    <div class="message-bubble">
+                        ${retrievalHtml}
+                        <div>${escapeHtml(answerText)}</div>
+                    </div>
+                    <div class="message-meta">${new Date().toLocaleTimeString()}</div>
+                </div>
+            `;
+            messages.appendChild(div);
+            messages.scrollTop = messages.scrollHeight;
+        }
+
+        function toggleExpand(index) {
+            const el = document.getElementById(`retrieval-text-${index}`);
+            if (el) {
+                el.classList.toggle('expanded');
+                const btn = el.nextElementSibling;
+                if (btn) {
+                    btn.textContent = el.classList.contains('expanded') ? '收起' : '展开查看';
+                }
+            }
+        }
+
+        function addErrorMessage(text) {
+            const messages = document.getElementById('chatMessages');
+            const div = document.createElement('div');
+            div.className = 'message assistant';
+            div.innerHTML = `
+                <div class="message-avatar">AI</div>
+                <div class="message-content">
+                    <div class="message-bubble" style="border-color: var(--error-color);">
+                        ❌ ${escapeHtml(text)}
+                    </div>
+                    <div class="message-meta">${new Date().toLocaleTimeString()}</div>
+                </div>
+            `;
+            messages.appendChild(div);
+            messages.scrollTop = messages.scrollHeight;
+        }
+
+        function addTypingIndicator() {
+            const messages = document.getElementById('chatMessages');
+            const div = document.createElement('div');
+            div.className = 'message assistant';
+            div.id = 'typing-indicator';
+            div.innerHTML = `
+                <div class="message-avatar">AI</div>
+                <div class="message-content">
+                    <div class="message-bubble">
+                        <div class="typing-indicator">
+                            <span></span><span></span><span></span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            messages.appendChild(div);
+            messages.scrollTop = messages.scrollHeight;
+            return div;
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
+</body>
+</html>
