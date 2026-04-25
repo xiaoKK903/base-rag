@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>设置 - AI工具平台</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <nav class="nav">
+        <a href="/">首页</a>
+        <a href="/tools">插件工具</a>
+        <a href="/settings" class="active">设置</a>
+    </nav>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h1>基础设置</h1>
+            </div>
+            <div class="form-group">
+                <label for="appName">应用名称</label>
+                <input type="text" id="appName" class="form-control" value="AI工具平台">
+            </div>
+            <div class="form-group">
+                <label for="theme">主题模式</label>
+                <select id="theme" class="form-control">
+                    <option value="light">浅色模式</option>
+                    <option value="dark">深色模式</option>
+                </select>
+            </div>
+            <button id="saveBtn" class="btn btn-primary">保存设置</button>
+            <div class="info-box">
+                <strong>当前版本:</strong> <span id="version">0.1.0</span><br>
+                <strong>架构:</strong> FastAPI + 前端静态页面
+            </div>
+        </div>
+    </div>
+    <script src="/static/js/app.js"></script>
+    <script>
+        function loadSettings() {
+            const saved = localStorage.getItem('settings');
+            if (saved) {
+                try {
+                    const settings = JSON.parse(saved);
+                    if (settings.appName) {
+                        document.getElementById('appName').value = settings.appName;
+                    }
+                    if (settings.theme) {
+                        document.getElementById('theme').value = settings.theme;
+                    }
+                } catch (e) {
+                    console.warn('Failed to parse settings:', e);
+                }
+            }
+        }
+
+        async function saveSettings() {
+            const appName = document.getElementById('appName').value.trim();
+            const theme = document.getElementById('theme').value;
+
+            if (!appName) {
+                App.toast.warning('应用名称不能为空');
+                return;
+            }
+
+            const settings = { appName, theme };
+            localStorage.setItem('settings', JSON.stringify(settings));
+
+            App.toast.success('设置已保存');
+        }
+
+        async function loadSystemInfo() {
+            try {
+                const result = await App.get('/info', { showLoading: false, showError: false });
+                if (result.data && result.data.version) {
+                    document.getElementById('version').textContent = result.data.version;
+                }
+            } catch (e) {
+                console.log('System info not available');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadSettings();
+            loadSystemInfo();
+            document.getElementById('saveBtn').addEventListener('click', saveSettings);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI工具平台</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <nav class="nav">
+        <a href="/" class="active">首页</a>
+        <a href="/tools">插件工具</a>
+        <a href="/settings">设置</a>
+    </nav>
+    <div class="container">
+        <div class="card hero">
+            <h1>AI工具综合平台</h1>
+            <p>插件化架构 · 工具聚合 · 结构化能力</p>
+        </div>
+        <div class="features">
+            <div class="feature">
+                <h3>计算工具</h3>
+                <p>各类数学计算和科学计算插件</p>
+            </div>
+            <div class="feature">
+                <h3>文本处理</h3>
+                <p>文本格式化、转换、提取工具</p>
+            </div>
+            <div class="feature">
+                <h3>结构化AI</h3>
+                <p>结构化数据处理与分析</p>
+            </div>
+            <div class="feature">
+                <h3>八字历法</h3>
+                <p>中国传统历法相关工具</p>
+            </div>
+        </div>
+    </div>
+    <script src="/static/js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const result = await App.get('/health', { showLoading: false, showError: false });
+                console.log('API Status:', result);
+            } catch (e) {
+                console.warn('API not available:', e.message);
+            }
+        });
+    </script>
+</body>
+</html>
