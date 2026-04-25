@@ -196,16 +196,23 @@
             await loadDocuments();
         }
 
+        function isSuccess(response) {
+            return response && (response.code === 0 || response.success === true);
+        }
+
         async function loadDocuments() {
             try {
                 const response = await App.get(`${API_BASE}/documents`);
-                if (response.success) {
-                    documents = response.data.documents || [];
+                if (isSuccess(response)) {
+                    documents = response.data?.documents || [];
                     updateDocList();
-                    updateStats(response.data.total_docs || 0, response.data.total_vectors || 0);
+                    updateStats(response.data?.total_docs || 0, response.data?.total_vectors || 0);
+                } else {
+                    App.toast.error(response?.message || '加载文档列表失败');
                 }
             } catch (e) {
                 console.error('加载文档失败:', e);
+                App.toast.error('网络错误，无法加载文档列表');
             }
         }
 
