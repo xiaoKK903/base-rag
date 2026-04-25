@@ -105,8 +105,9 @@ class EmbeddingService:
             hash_hex = hash_obj.hexdigest()
 
             vector = []
-            for i in range(0, 128):
-                byte_val = int(hash_hex[i % len(hash_hex):i % len(hash_hex) + 2], 16)
+            for i in range(0, 1024):
+                pos = (i * 2) % len(hash_hex)
+                byte_val = int(hash_hex[pos:pos + 2] if pos + 2 <= len(hash_hex) else hash_hex[pos:] + hash_hex[:2 - (len(hash_hex) - pos)], 16)
                 normalized = (byte_val - 128) / 128.0
                 vector.append(normalized)
 

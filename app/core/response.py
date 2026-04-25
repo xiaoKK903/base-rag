@@ -1,6 +1,6 @@
 from typing import Any, Generic, Optional, TypeVar
 from datetime import datetime
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, computed_field
 from .error_codes import ErrorCode, ErrorCodeEnum
 
 T = TypeVar("T")
@@ -10,6 +10,11 @@ class R(BaseModel, Generic[T]):
     message: str = Field(default="操作成功", description="消息")
     data: Optional[T] = Field(default=None, description="数据")
     timestamp: int = Field(default_factory=lambda: int(datetime.now().timestamp() * 1000), description="时间戳")
+
+    @computed_field
+    @property
+    def success(self) -> bool:
+        return self.code == 0
 
     @classmethod
     def ok(cls, data: T = None, message: str = "操作成功") -> "R[T]":
