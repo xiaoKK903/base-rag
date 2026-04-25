@@ -28,6 +28,8 @@ app = FastAPI(
 
 setup_middleware(app)
 
+app.mount("/static", StaticFiles(directory=str(BASE_DIR / "static")), name="static")
+
 app.include_router(router, prefix="/api")
 
 @app.exception_handler(BusinessException)
