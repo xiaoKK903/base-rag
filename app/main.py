@@ -8,6 +8,7 @@ from typing import Any, Dict
 
 from .config import settings
 from .router import router
+from .rag.router import rag_router
 from .middleware import setup_middleware
 from .core import (
     R, ErrorResponse,
@@ -15,6 +16,7 @@ from .core import (
     logger, ErrorCodeEnum
 )
 from .plugins import plugin_manager, plugin_registry
+from .rag.service import get_rag_service
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -31,6 +33,7 @@ setup_middleware(app)
 app.mount("/static", StaticFiles(directory=str(BASE_DIR / "static")), name="static")
 
 app.include_router(router, prefix="/api")
+app.include_router(rag_router, prefix="/api/rag")
 
 @app.exception_handler(BusinessException)
 async def business_exception_handler(request: Request, exc: BusinessException) -> JSONResponse:
@@ -94,13 +97,17 @@ async def serve_tools():
 async def serve_settings():
     return FileResponse(BASE_DIR / "static" / "settings.html")
 
+@app.get("/rag")
+async def serve_rag():
+    return FileResponse(BASE_DIR / "static" / "rag.html")
+
 def custom_openapi() -> Dict[str, Any]:
     if app.openapi_schema:
         return app.openapi_schema
     openapi_schema = get_openapi(
         title=settings.APP_NAME,
         version=settings.APP_VERSION,
-        description="插件化AI工具综合平台",
+        description="插件化AI工具综合平台 - 支持RAG检索",
         routes=app.routes,
     )
     app.openapi_schema = openapi_schema
@@ -116,9 +123,14 @@ async def startup_event():
     plugin_count = len(plugin_registry.list_plugins())
     logger.info(f"已注册插件数量: {plugin_count}")
 
+    rag_service = get_rag_service()
+    logger.info(f"RAG服务初始化完成: {rag_service.get_document_count()} 个文档, {rag_service.get_vector_count()} 个向量")
+
 @app.on_event("shutdown")
 async def shutdown_event():
     logger.info(f"{settings.APP_NAME} 关闭中...")
+    rag_service = get_rag_service()
+    await rag_service.close()
 
 if __name__ == "__main__":
     import uvicorn
