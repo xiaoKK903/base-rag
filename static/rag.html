@@ -6,69 +6,110 @@
     <title>RAG知识库检索 - AI工具平台</title>
     <link rel="stylesheet" href="/static/css/style.css">
     <style>
+        :root {
+            --config-bg: #1e1e2e;
+            --config-header-bg: #2d2d44;
+            --config-border: #3d3d5c;
+        }
+        
         .config-panel {
             position: fixed;
-            top: 60px;
+            top: 70px;
             right: 20px;
-            width: 320px;
+            width: 340px;
             max-height: calc(100vh - 100px);
-            background: var(--bg-secondary);
+            background: var(--config-bg);
+            border: 1px solid var(--config-border);
             border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-            z-index: 1000;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            z-index: 9999;
             overflow: hidden;
-            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            transition: width 0.3s ease, min-width 0.3s ease;
         }
         
         .config-panel.collapsed {
-            transform: translateX(300px);
-            width: 40px;
+            width: 48px;
+            min-width: 48px;
         }
         
-        .config-toggle {
-            position: absolute;
-            top: 10px;
-            left: -50px;
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            transition: all 0.2s;
-        }
-        
-        .config-toggle:hover {
-            background: var(--primary-color);
-            color: white;
+        .config-panel.collapsed .config-header-buttons,
+        .config-panel.collapsed .config-content {
+            display: none;
         }
         
         .config-panel.collapsed .config-toggle {
-            left: 0;
+            justify-content: center;
         }
         
         .config-header {
-            padding: 12px 16px;
-            background: var(--primary-color);
-            color: white;
+            padding: 10px 14px;
+            background: var(--config-header-bg);
+            border-bottom: 1px solid var(--config-border);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            min-height: 40px;
+            cursor: grab;
+            user-select: none;
+        }
+        
+        .config-header:active {
+            cursor: grabbing;
         }
         
         .config-header h4 {
             margin: 0;
             font-size: 14px;
+            color: #fff;
+            white-space: nowrap;
+        }
+        
+        .config-header-buttons {
+            display: flex;
+            gap: 6px;
+        }
+        
+        .config-btn {
+            width: 24px;
+            height: 24px;
+            border: none;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            transition: background 0.2s;
+        }
+        
+        .config-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .config-btn.danger:hover {
+            background: rgba(239, 68, 68, 0.3);
+        }
+        
+        .config-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .config-toggle-icon {
+            font-size: 16px;
+            cursor: pointer;
         }
         
         .config-content {
-            padding: 12px 16px;
-            max-height: calc(100vh - 200px);
+            padding: 12px 14px;
             overflow-y: auto;
+            flex: 1;
+            max-height: calc(100vh - 180px);
         }
         
         .config-section {
@@ -76,11 +117,13 @@
         }
         
         .config-section-title {
-            font-size: 12px;
-            color: var(--text-light);
-            margin-bottom: 8px;
-            padding-bottom: 4px;
-            border-bottom: 1px solid var(--border-color);
+            font-size: 11px;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid var(--config-border);
         }
         
         .config-item {
@@ -92,52 +135,67 @@
         
         .config-item label {
             font-size: 13px;
-            cursor: pointer;
-        }
-        
-        .config-item input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
+            color: #e5e7eb;
             cursor: pointer;
         }
         
         .config-item input[type="number"] {
-            width: 80px;
+            width: 70px;
             padding: 4px 8px;
-            border: 1px solid var(--border-color);
+            border: 1px solid var(--config-border);
             border-radius: 4px;
-            background: var(--bg-primary);
-            color: var(--text-primary);
+            background: #2a2a3e;
+            color: #fff;
             font-size: 13px;
         }
         
         .config-buttons {
             display: flex;
             gap: 8px;
-            padding-top: 8px;
-            border-top: 1px solid var(--border-color);
+            padding-top: 10px;
+            border-top: 1px solid var(--config-border);
         }
         
         .config-buttons button {
             flex: 1;
-            padding: 8px;
+            padding: 8px 12px;
             font-size: 12px;
             border-radius: 6px;
             cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+        
+        .btn-apply {
+            background: #3b82f6;
+            color: white;
+        }
+        
+        .btn-apply:hover {
+            background: #2563eb;
+        }
+        
+        .btn-reset {
+            background: #374151;
+            color: #d1d5db;
+        }
+        
+        .btn-reset:hover {
+            background: #4b5563;
         }
         
         .debug-panel {
             margin-top: 12px;
-            padding: 12px;
-            background: var(--bg-primary);
-            border-radius: 8px;
-            font-size: 12px;
+            padding: 10px;
+            background: #1a1a2e;
+            border-radius: 6px;
+            border: 1px solid var(--config-border);
         }
         
         .debug-panel h5 {
             margin: 0 0 8px 0;
-            font-size: 13px;
-            color: var(--primary-color);
+            font-size: 12px;
+            color: #60a5fa;
         }
         
         .debug-section {
@@ -146,33 +204,36 @@
         
         .debug-section-title {
             font-weight: 600;
-            color: var(--text-secondary);
+            color: #9ca3af;
             margin-bottom: 4px;
-            display: flex;
-            justify-content: space-between;
+            font-size: 11px;
         }
         
         .debug-section-content {
-            background: #1a1a2e;
-            padding: 8px;
+            background: #151525;
+            padding: 6px 8px;
             border-radius: 4px;
-            font-family: monospace;
+            font-family: 'Consolas', monospace;
             font-size: 11px;
-            max-height: 200px;
+            max-height: 150px;
             overflow-y: auto;
-            white-space: pre-wrap;
-            word-break: break-all;
+            color: #d1d5db;
+            line-height: 1.5;
         }
         
         .debug-result-item {
-            padding: 6px;
-            margin-bottom: 4px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 4px;
+            padding: 4px 6px;
+            margin-bottom: 3px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 3px;
+        }
+        
+        .debug-result-item:last-child {
+            margin-bottom: 0;
         }
         
         .debug-score {
-            color: var(--primary-color);
+            color: #60a5fa;
             font-weight: 600;
         }
         
@@ -186,16 +247,16 @@
         
         .toggle-switch {
             position: relative;
-            width: 44px;
-            height: 24px;
-            background: var(--border-color);
-            border-radius: 12px;
+            width: 40px;
+            height: 22px;
+            background: #374151;
+            border-radius: 11px;
             cursor: pointer;
             transition: background 0.3s;
         }
         
         .toggle-switch.active {
-            background: var(--primary-color);
+            background: #3b82f6;
         }
         
         .toggle-switch::after {
@@ -203,15 +264,15 @@
             position: absolute;
             top: 2px;
             left: 2px;
-            width: 20px;
-            height: 20px;
-            background: white;
+            width: 18px;
+            height: 18px;
+            background: #fff;
             border-radius: 50%;
             transition: transform 0.3s;
         }
         
         .toggle-switch.active::after {
-            transform: translateX(20px);
+            transform: translateX(18px);
         }
         
         .rag-layout {
@@ -237,21 +298,26 @@
             background: var(--bg-secondary);
             border-radius: 12px;
             overflow: hidden;
+            margin-right: 360px;
+            transition: margin-right 0.3s ease;
         }
         
-        @media (max-width: 1200px) {
-            .config-panel {
-                right: 10px;
-                width: 280px;
+        .chat-area.panel-collapsed {
+            margin-right: 70px;
+        }
+        
+        @media (max-width: 1400px) {
+            .chat-area {
+                margin-right: 0;
             }
         }
         
         .feature-badge {
             display: inline-block;
             padding: 2px 6px;
-            border-radius: 4px;
+            border-radius: 3px;
             font-size: 10px;
-            margin-left: 4px;
+            margin-left: 6px;
         }
         
         .feature-badge.enabled {
@@ -263,6 +329,18 @@
             background: rgba(148, 163, 184, 0.2);
             color: #94a3b8;
         }
+        
+        .no-debug-msg {
+            text-align: center;
+            padding: 16px;
+            color: #6b7280;
+            font-size: 12px;
+        }
+        
+        .config-empty {
+            color: #9ca3af;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
@@ -273,7 +351,7 @@
         <a href="/settings">设置</a>
     </nav>
 
-    <div class="container" style="max-width: 1800px; margin-top: 1.5rem;">
+    <div class="container" style="max-width: none; margin-top: 1.5rem; padding: 0 20px;">
         <div class="rag-layout">
             <div class="sidebar">
                 <div class="sidebar-header">
@@ -309,7 +387,7 @@
                 </div>
             </div>
 
-            <div class="chat-area">
+            <div class="chat-area" id="chatArea">
                 <div class="chat-header">
                     <h3>🔍 RAG智能检索</h3>
                     <div class="chat-settings">
@@ -333,7 +411,7 @@
                         <h4>开始智能检索</h4>
                         <p>上传文档后，输入问题即可从文档中检索相关内容</p>
                         <p style="margin-top: 8px; font-size: 13px; color: var(--text-light);">
-                            💡 点击右上角 <strong>⚙️ 配置</strong> 可开启高级功能
+                            💡 点击右侧 <strong>⚙️</strong> 可开启高级功能和调试模式
                         </p>
                     </div>
                 </div>
@@ -349,13 +427,20 @@
     </div>
 
     <div class="config-panel" id="configPanel">
-        <button class="config-toggle" onclick="toggleConfigPanel()">⚙️</button>
-        <div class="config-header">
-            <h4>⚙️ RAG 高级配置</h4>
+        <div class="config-header" id="configHeader">
+            <div class="config-toggle">
+                <span class="config-toggle-icon" onclick="toggleConfigPanel()">⚙️</span>
+                <h4 id="panelTitle">RAG 高级配置</h4>
+            </div>
+            <div class="config-header-buttons">
+                <button class="config-btn" title="收起" onclick="toggleConfigPanel()">−</button>
+                <button class="config-btn" title="关闭" onclick="hideConfigPanel()">✕</button>
+            </div>
         </div>
+        
         <div class="config-content">
             <div class="config-section">
-                <div class="config-section-title">📊 功能开关</div>
+                <div class="config-section-title">功能开关</div>
                 
                 <div class="config-item">
                     <label>
@@ -399,7 +484,7 @@
             </div>
             
             <div class="config-section">
-                <div class="config-section-title">⚖️ 权重配置</div>
+                <div class="config-section-title">权重配置</div>
                 
                 <div class="config-item">
                     <label>向量检索权重</label>
@@ -413,16 +498,16 @@
             </div>
             
             <div class="config-buttons">
-                <button class="btn btn-outline" onclick="resetConfig()">重置默认</button>
-                <button class="btn btn-primary" onclick="applyConfig()">应用配置</button>
+                <button class="btn-reset" onclick="resetConfig()">重置默认</button>
+                <button class="btn-apply" onclick="applyConfig()">应用配置</button>
             </div>
             
             <div class="debug-panel" id="debugPanel" style="display: none;">
                 <h5>🔍 最新查询调试信息</h5>
                 <div id="debugContent">
-                    <div style="color: var(--text-light); text-align: center; padding: 20px;">
-                        暂无调试信息<br>
-                        <span style="font-size: 12px;">开启调试模式后进行查询</span>
+                    <div class="no-debug-msg">
+                        开启调试模式后进行查询<br>
+                        调试信息将显示在这里
                     </div>
                 </div>
             </div>
@@ -439,6 +524,8 @@
         const API_BASE = '/rag';
         let documents = [];
         let selectedDocIds = [];
+        let isPanelCollapsed = false;
+        
         let currentConfig = {
             enable_query_rewrite: false,
             enable_keyword_search: false,
@@ -454,7 +541,57 @@
             loadConfig();
             setupUpload();
             setupInput();
+            setupDrag();
         });
+
+        function setupDrag() {
+            const panel = document.getElementById('configPanel');
+            const header = document.getElementById('configHeader');
+            
+            let isDragging = false;
+            let startX, startY, startLeft, startTop;
+            
+            header.addEventListener('mousedown', (e) => {
+                if (e.target.closest('.config-btn') || e.target.closest('.config-toggle-icon')) return;
+                
+                isDragging = true;
+                startX = e.clientX;
+                startY = e.clientY;
+                
+                const rect = panel.getBoundingClientRect();
+                startLeft = rect.left;
+                startTop = rect.top;
+                
+                panel.style.transition = 'none';
+            });
+            
+            document.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                
+                const dx = e.clientX - startX;
+                const dy = e.clientY - startY;
+                
+                let newLeft = startLeft + dx;
+                let newTop = startTop + dy;
+                
+                const maxLeft = window.innerWidth - panel.offsetWidth;
+                const maxTop = window.innerHeight - 50;
+                
+                newLeft = Math.max(0, Math.min(maxLeft, newLeft));
+                newTop = Math.max(50, Math.min(maxTop, newTop));
+                
+                panel.style.left = newLeft + 'px';
+                panel.style.top = newTop + 'px';
+                panel.style.right = 'auto';
+            });
+            
+            document.addEventListener('mouseup', () => {
+                if (isDragging) {
+                    isDragging = false;
+                    panel.style.transition = '';
+                }
+            });
+        }
 
         function showLoading(show) {
             const overlay = document.getElementById('loadingOverlay');
@@ -463,7 +600,16 @@
 
         function toggleConfigPanel() {
             const panel = document.getElementById('configPanel');
-            panel.classList.toggle('collapsed');
+            const chatArea = document.getElementById('chatArea');
+            
+            isPanelCollapsed = !isPanelCollapsed;
+            panel.classList.toggle('collapsed', isPanelCollapsed);
+            chatArea.classList.toggle('panel-collapsed', isPanelCollapsed);
+        }
+        
+        function hideConfigPanel() {
+            const panel = document.getElementById('configPanel');
+            panel.style.display = 'none';
         }
 
         async function loadConfig() {
@@ -739,7 +885,6 @@
 
         function setupInput() {
             const input = document.getElementById('questionInput');
-            const sendBtn = document.getElementById('sendBtn');
 
             input.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
@@ -787,9 +932,13 @@
                 typingEl.remove();
 
                 if (result.success) {
+                    console.log('API返回数据:', result.data);
+                    
                     if (result.data?.debug_info) {
+                        console.log('调试信息:', result.data.debug_info);
                         updateDebugPanel(result.data.debug_info);
                     }
+                    
                     addAssistantMessage(result.data);
                 } else {
                     addErrorMessage(result.message || '查询失败');
@@ -803,23 +952,24 @@
         function updateDebugPanel(debugInfo) {
             const debugContent = document.getElementById('debugContent');
             
+            if (!debugInfo) {
+                debugContent.innerHTML = '<div class="no-debug-msg">暂无调试信息</div>';
+                return;
+            }
+            
             let html = '';
             
             html += `<div class="debug-section">
-                <div class="debug-section-title">
-                    <span>📝 查询信息</span>
-                </div>
+                <div class="debug-section-title">📝 查询信息</div>
                 <div class="debug-section-content">
                     <strong>原始问题:</strong> ${escapeHtml(debugInfo.original_query || '-')}<br>
-                    <strong>改写后:</strong> ${debugInfo.is_rewritten ? escapeHtml(debugInfo.rewritten_query) : '<span style="color: #94a3b8;">(未改写)</span>'}<br>
-                    <strong>关键词:</strong> ${(debugInfo.keywords || []).join(', ') || '-'}
+                    <strong>改写后:</strong> ${debugInfo.is_rewritten ? escapeHtml(debugInfo.rewritten_query) : '<span class="config-empty">(未改写)</span>'}<br>
+                    <strong>关键词:</strong> ${(debugInfo.keywords || []).join(', ') || '<span class="config-empty">-</span>'}
                 </div>
             </div>`;
             
             html += `<div class="debug-section">
-                <div class="debug-section-title">
-                    <span>⚙️ 功能状态</span>
-                </div>
+                <div class="debug-section-title">⚙️ 功能状态</div>
                 <div class="debug-section-content">
                     ${Object.entries(debugInfo.feature_status || {}).map(([key, val]) => 
                         `<span style="color: ${val ? '#4ade80' : '#94a3b8'};">${key}: ${val ? '✓' : '✗'}</span>`
@@ -828,20 +978,15 @@
             </div>`;
             
             html += `<div class="debug-section">
-                <div class="debug-section-title">
-                    <span>📊 权重配置</span>
-                </div>
+                <div class="debug-section-title">📊 权重配置</div>
                 <div class="debug-section-content">
-                    向量权重: ${debugInfo.vector_weight || 0.7} | 关键词权重: ${debugInfo.keyword_weight || 0.3}
+                    向量: ${debugInfo.vector_weight || 0.7} | 关键词: ${debugInfo.keyword_weight || 0.3}
                 </div>
             </div>`;
             
             if (debugInfo.vector_results && debugInfo.vector_results.length > 0) {
                 html += `<div class="debug-section">
-                    <div class="debug-section-title">
-                        <span>🎯 向量检索结果</span>
-                        <span style="color: var(--text-light);">(${debugInfo.vector_results.length} 个)</span>
-                    </div>
+                    <div class="debug-section-title">🎯 向量检索 (${debugInfo.vector_results.length} 个)</div>
                     <div class="debug-section-content">
                         ${debugInfo.vector_results.map((r, i) => `
                             <div class="debug-result-item">
@@ -855,10 +1000,7 @@
             
             if (debugInfo.keyword_results && debugInfo.keyword_results.length > 0) {
                 html += `<div class="debug-section">
-                    <div class="debug-section-title">
-                        <span>🔍 关键词检索结果</span>
-                        <span style="color: var(--text-light);">(${debugInfo.keyword_results.length} 个)</span>
-                    </div>
+                    <div class="debug-section-title">🔍 关键词检索 (${debugInfo.keyword_results.length} 个)</div>
                     <div class="debug-section-content">
                         ${debugInfo.keyword_results.map((r, i) => `
                             <div class="debug-result-item">
@@ -873,10 +1015,7 @@
             
             if (debugInfo.reranked_results && debugInfo.reranked_results.length > 0) {
                 html += `<div class="debug-section">
-                    <div class="debug-section-title">
-                        <span>🔄 重排结果</span>
-                        <span style="color: var(--text-light);">(${debugInfo.reranked_results.length} 个)</span>
-                    </div>
+                    <div class="debug-section-title">🔄 重排结果 (${debugInfo.reranked_results.length} 个)</div>
                     <div class="debug-section-content">
                         ${debugInfo.reranked_results.map((r, i) => {
                             const rankBefore = r.rank_before;
