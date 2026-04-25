@@ -93,7 +93,7 @@
 
     <script src="/static/js/app.js"></script>
     <script>
-        const API_BASE = '/api/rag';
+        const API_BASE = '/rag';
         let documents = [];
         let selectedDocIds = [];
 
@@ -165,7 +165,7 @@
                     const formData = new FormData();
                     formData.append('file', file);
 
-                    const response = await fetch(`${API_BASE}/upload`, {
+                    const response = await fetch(`/api${API_BASE}/upload`, {
                         method: 'POST',
                         body: formData
                     });
@@ -264,7 +264,7 @@
             if (!confirm('确定要删除这个文档吗？')) return;
 
             try {
-                const response = await fetch(`${API_BASE}/documents/${docId}`, {
+                const response = await fetch(`/api${API_BASE}/documents/${docId}`, {
                     method: 'DELETE'
                 });
                 const result = await response.json();
@@ -286,7 +286,7 @@
             if (!confirm('确定要清空所有文档吗？此操作不可恢复。')) return;
 
             try {
-                const response = await fetch(`${API_BASE}/clear`, {
+                const response = await fetch(`/api${API_BASE}/clear`, {
                     method: 'DELETE'
                 });
                 const result = await response.json();

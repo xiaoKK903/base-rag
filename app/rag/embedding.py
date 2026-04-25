@@ -18,13 +18,14 @@ class EmbeddingService:
     def __init__(self):
         self.api_key = settings.DASHSCOPE_API_KEY
         self.base_url = settings.DASHSCOPE_BASE_URL.rstrip("/")
-        self.model = "text-embedding-v3"
+        self.model = "text-embedding-v4"
         self._client: Optional[httpx.AsyncClient] = None
+        self._max_batch_size = 8
 
     @property
     def client(self) -> httpx.AsyncClient:
         if self._client is None:
-            self._client = httpx.AsyncClient(timeout=30.0)
+            self._client = httpx.AsyncClient(timeout=60.0)
         return self._client
 
     async def close(self):
@@ -50,26 +51,33 @@ class EmbeddingService:
         url = f"{self.base_url}/embeddings"
 
         results = []
-        batch_size = 16
+        batch_size = self._max_batch_size
 
         for i in range(0, len(texts), batch_size):
             batch = texts[i:i + batch_size]
 
             payload = {
                 "model": self.model,
-                "input": [{"text": t} for t in batch],
-                "encoding_format": "float"
+                "input": batch,
+                "encoding_format": "float",
+                "dimensions": 1024
             }
 
             try:
-                logger.info(f"Calling embedding API: {len(batch)} texts")
+                logger.info(f"Calling embedding API: {len(batch)} texts, model: {self.model}")
                 response = await self.client.post(
                     url,
                     headers=self._generate_request_headers(),
                     json=payload
                 )
-                response.raise_for_status()
+                
+                if response.status_code != 200:
+                    error_text = await response.aread()
+                    logger.error(f"Embedding API error {response.status_code}: {error_text.decode()}")
+                    raise Exception(f"Embedding API failed with status {response.status_code}: {error_text.decode()}")
+                
                 data = response.json()
+                logger.info(f"Embedding API response received successfully")
 
                 for j, item in enumerate(data.get("data", [])):
                     embedding = item.get("embedding", [])
@@ -82,8 +90,11 @@ class EmbeddingService:
                     ))
 
             except httpx.HTTPStatusError as e:
-                logger.error(f"Embedding API error: {e}")
+                logger.error(f"Embedding HTTP status error: {e}")
                 raise Exception(f"Embedding API failed: {e}")
+            except Exception as e:
+                logger.error(f"Embedding API exception: {e}")
+                raise
 
         return results
 
@@ -94,7 +105,7 @@ class EmbeddingService:
             hash_hex = hash_obj.hexdigest()
 
             vector = []
-            for i in range(0, 64):
+            for i in range(0, 128):
                 byte_val = int(hash_hex[i % len(hash_hex):i % len(hash_hex) + 2], 16)
                 normalized = (byte_val - 128) / 128.0
                 vector.append(normalized)
