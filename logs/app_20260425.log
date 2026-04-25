@@ -413,3 +413,143 @@ For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/St
 2026-04-25 13:09:05 | INFO     | app | Calling LLM API: qwen-turbo
 2026-04-25 13:09:06 | INFO     | app | LLM API response received successfully
 2026-04-25 13:09:06 | INFO     | app | LLM generated answer, model: qwen-turbo, tokens: 140
+2026-04-25 13:15:34 | INFO     | app | 获取文档列表
+2026-04-25 13:15:37 | INFO     | app | RAG查询: niha
+2026-04-25 13:15:37 | INFO     | app | Calling embedding API: 1 texts, model: text-embedding-v4
+2026-04-25 13:15:37 | INFO     | app | Embedding API response received successfully
+2026-04-25 13:15:37 | INFO     | app | Retrieved 0 results (top_k=5, min_score=0.5)
+2026-04-25 13:15:37 | INFO     | app | Calling LLM to generate answer for question: niha...
+2026-04-25 13:15:37 | INFO     | app | Calling LLM API: qwen-turbo
+2026-04-25 13:15:38 | INFO     | app | LLM API response received successfully
+2026-04-25 13:15:38 | INFO     | app | LLM generated answer, model: qwen-turbo, tokens: 123
+2026-04-25 13:15:41 | INFO     | app | RAG查询: 注册
+2026-04-25 13:15:41 | INFO     | app | Calling embedding API: 1 texts, model: text-embedding-v4
+2026-04-25 13:15:41 | INFO     | app | Embedding API response received successfully
+2026-04-25 13:15:41 | INFO     | app | Retrieved 1 results (top_k=5, min_score=0.5)
+2026-04-25 13:15:41 | INFO     | app | Calling LLM to generate answer for question: 注册...
+2026-04-25 13:15:41 | INFO     | app | Calling LLM API: qwen-turbo
+2026-04-25 13:15:43 | INFO     | app | LLM API response received successfully
+2026-04-25 13:15:43 | INFO     | app | LLM generated answer, model: qwen-turbo, tokens: 435
+2026-04-25 13:16:15 | INFO     | app | RAG查询: 支付
+2026-04-25 13:16:15 | INFO     | app | Calling embedding API: 1 texts, model: text-embedding-v4
+2026-04-25 13:16:16 | INFO     | app | Embedding API response received successfully
+2026-04-25 13:16:16 | INFO     | app | Retrieved 0 results (top_k=5, min_score=0.5)
+2026-04-25 13:16:16 | INFO     | app | Calling LLM to generate answer for question: 支付...
+2026-04-25 13:16:16 | INFO     | app | Calling LLM API: qwen-turbo
+2026-04-25 13:16:16 | INFO     | app | LLM API response received successfully
+2026-04-25 13:16:16 | INFO     | app | LLM generated answer, model: qwen-turbo, tokens: 129
+2026-04-25 13:16:19 | INFO     | app | RAG查询: 支付方式
+2026-04-25 13:16:19 | INFO     | app | Calling embedding API: 1 texts, model: text-embedding-v4
+2026-04-25 13:16:19 | INFO     | app | Embedding API response received successfully
+2026-04-25 13:16:19 | INFO     | app | Retrieved 0 results (top_k=5, min_score=0.5)
+2026-04-25 13:16:19 | INFO     | app | Calling LLM to generate answer for question: 支付方式...
+2026-04-25 13:16:19 | INFO     | app | Calling LLM API: qwen-turbo
+2026-04-25 13:16:20 | INFO     | app | LLM API response received successfully
+2026-04-25 13:16:20 | INFO     | app | LLM generated answer, model: qwen-turbo, tokens: 135
+2026-04-25 13:16:26 | INFO     | app | RAG查询: 支付方式有哪些呢
+2026-04-25 13:16:26 | INFO     | app | Calling embedding API: 1 texts, model: text-embedding-v4
+2026-04-25 13:16:26 | INFO     | app | Embedding API response received successfully
+2026-04-25 13:16:26 | INFO     | app | Retrieved 1 results (top_k=5, min_score=0.5)
+2026-04-25 13:16:26 | INFO     | app | Calling LLM to generate answer for question: 支付方式有哪些呢...
+2026-04-25 13:16:26 | INFO     | app | Calling LLM API: qwen-turbo
+2026-04-25 13:16:27 | INFO     | app | LLM API response received successfully
+2026-04-25 13:16:27 | INFO     | app | LLM generated answer, model: qwen-turbo, tokens: 481
+2026-04-25 13:17:11 | INFO     | app | RAG查询: Q: 可以申请退款吗
+2026-04-25 13:17:11 | INFO     | app | Calling embedding API: 1 texts, model: text-embedding-v4
+2026-04-25 13:17:12 | INFO     | app | Embedding API response received successfully
+2026-04-25 13:17:12 | INFO     | app | Retrieved 2 results (top_k=5, min_score=0.5)
+2026-04-25 13:17:12 | INFO     | app | Calling LLM to generate answer for question: Q: 可以申请退款吗...
+2026-04-25 13:17:12 | INFO     | app | Calling LLM API: qwen-turbo
+2026-04-25 13:17:13 | INFO     | app | LLM API response received successfully
+2026-04-25 13:17:13 | INFO     | app | LLM generated answer, model: qwen-turbo, tokens: 883
+2026-04-25 13:23:08 | INFO     | app | AI工具平台 关闭中...
+2026-04-25 13:23:08 | INFO     | app | AI工具平台 关闭中...
+2026-04-25 13:23:10 | INFO     | app | Logger initialized. Level: DEBUG, Log file: D:\base-rag\logs\app_20260425.log
+2026-04-25 13:23:10 | INFO     | app | Logger initialized. Level: DEBUG, Log file: D:\base-rag\logs\app_20260425.log
+2026-04-25 13:23:10 | INFO     | app | AI工具平台 v0.1.0 启动中...
+2026-04-25 13:23:10 | INFO     | app | 配置: DEBUG=True, PORT=8000
+2026-04-25 13:23:10 | INFO     | app | 已注册插件数量: 0
+2026-04-25 13:23:10 | INFO     | app | Loaded 4 vector records
+2026-04-25 13:23:10 | INFO     | app | RAG服务初始化完成: 1 个文档, 4 个向量
+2026-04-25 13:23:10 | INFO     | app | AI工具平台 v0.1.0 启动中...
+2026-04-25 13:23:10 | INFO     | app | 配置: DEBUG=True, PORT=8000
+2026-04-25 13:23:10 | INFO     | app | 已注册插件数量: 0
+2026-04-25 13:23:10 | INFO     | app | Loaded 4 vector records
+2026-04-25 13:23:10 | INFO     | app | RAG服务初始化完成: 1 个文档, 4 个向量
+2026-04-25 13:23:42 | INFO     | app | AI工具平台 关闭中...
+2026-04-25 13:23:42 | INFO     | app | AI工具平台 关闭中...
+2026-04-25 13:23:44 | INFO     | app | Logger initialized. Level: DEBUG, Log file: D:\base-rag\logs\app_20260425.log
+2026-04-25 13:23:44 | INFO     | app | Logger initialized. Level: DEBUG, Log file: D:\base-rag\logs\app_20260425.log
+2026-04-25 13:23:44 | INFO     | app | AI工具平台 v0.1.0 启动中...
+2026-04-25 13:23:44 | INFO     | app | 配置: DEBUG=True, PORT=8000
+2026-04-25 13:23:44 | INFO     | app | 已注册插件数量: 0
+2026-04-25 13:23:44 | INFO     | app | Loaded 4 vector records
+动中...
+2026-04-25 13:23:44 | INFO     | app | 配置: DEBUG=True, PORT=8000
+2026-04-25 13:23:44 | INFO     | app | 已注册插件数量: 0
+2026-04-25 13:23:44 | INFO     | app | RAG服务初始化完成: 1 个文档, 4 个向量
+2026-04-25 13:23:44 | INFO     | app | Loaded 4 vector records
+2026-04-25 13:23:44 | INFO     | app | RAG服务初始化完成: 1 个文档, 4 个向量
+2026-04-25 13:24:24 | INFO     | app | AI工具平台 关闭中...
+2026-04-25 13:24:24 | INFO     | app | AI工具平台 关闭中...
+2026-04-25 13:24:26 | INFO     | app | Logger initialized. Level: DEBUG, Log file: D:\base-rag\logs\app_20260425.log
+2026-04-25 13:24:26 | INFO     | app | Logger initialized. Level: DEBUG, Log file: D:\base-rag\logs\app_20260425.log
+2026-04-25 13:24:26 | INFO     | app | AI工具平台 v0.1.0 启动中...
+2026-04-25 13:24:26 | INFO     | app | 配置: DEBUG=True, PORT=8000
+2026-04-25 13:24:26 | INFO     | app | 已注册插件数量: 0
+2026-04-25 13:24:26 | INFO     | app | Loaded 4 vector records
+2026-04-25 13:24:26 | INFO     | app | RAG服务初始化完成: 1 个文档, 4 个向量
+2026-04-25 13:24:26 | INFO     | app | AI工具平台 v0.1.0 启动中...
+2026-04-25 13:24:26 | INFO     | app | 配置: DEBUG=True, PORT=8000
+2026-04-25 13:24:26 | INFO     | app | 已注册插件数量: 0
+2026-04-25 13:24:26 | INFO     | app | Loaded 4 vector records
+2026-04-25 13:24:26 | INFO     | app | RAG服务初始化完成: 1 个文档, 4 个向量
+2026-04-25 13:25:22 | INFO     | app | AI工具平台 关闭中...
+2026-04-25 13:25:22 | INFO     | app | AI工具平台 关闭中...
+2026-04-25 13:25:23 | INFO     | app | Logger initialized. Level: DEBUG, Log file: D:\base-rag\logs\app_20260425.log
+2026-04-25 13:25:23 | INFO     | app | Logger initialized. Level: DEBUG, Log file: D:\base-rag\logs\app_20260425.log
+2026-04-25 13:25:24 | INFO     | app | AI工具平台 v0.1.0 启动中...
+2026-04-25 13:25:24 | INFO     | app | 配置: DEBUG=True, PORT=8000
+2026-04-25 13:25:24 | INFO     | app | 已注册插件数量: 0
+2026-04-25 13:25:24 | INFO     | app | Loaded 4 vector records
+2026-04-25 13:25:24 | INFO     | app | RAG服务初始化完成: 1 个文档, 4 个向量
+2026-04-25 13:25:24 | INFO     | app | AI工具平台 v0.1.0 启动中...
+2026-04-25 13:25:24 | INFO     | app | 配置: DEBUG=True, PORT=8000
+2026-04-25 13:25:24 | INFO     | app | 已注册插件数量: 0
+2026-04-25 13:25:24 | INFO     | app | Loaded 4 vector records
+2026-04-25 13:25:24 | INFO     | app | RAG服务初始化完成: 1 个文档, 4 个向量
+2026-04-25 13:26:27 | INFO     | app | AI工具平台 关闭中...
+2026-04-25 13:26:27 | INFO     | app | AI工具平台 关闭中...
+2026-04-25 13:26:28 | INFO     | app | Logger initialized. Level: DEBUG, Log file: D:\base-rag\logs\app_20260425.log
+2026-04-25 13:26:28 | INFO     | app | Logger initialized. Level: DEBUG, Log file: D:\base-rag\logs\app_20260425.log
+2026-04-25 13:26:28 | INFO     | app | AI工具平台 v0.1.0 启动中...
+2026-04-25 13:26:28 | INFO     | app | 配置: DEBUG=True, PORT=8000
+2026-04-25 13:26:28 | INFO     | app | 已注册插件数量: 0
+2026-04-25 13:26:28 | INFO     | app | AI工具平台 v0.1.0 启动中...
+2026-04-25 13:26:28 | INFO     | app | 配置: DEBUG=True, PORT=8000
+2026-04-25 13:26:28 | INFO     | app | 已注册插件数量: 0
+2026-04-25 13:26:28 | INFO     | app | Loaded 4 vector records
+2026-04-25 13:26:28 | INFO     | app | RAG服务初始化完成: 1 个文档, 4 个向量
+2026-04-25 13:26:28 | INFO     | app | Loaded 4 vector records
+2026-04-25 13:26:28 | INFO     | app | RAG服务初始化完成: 1 个文档, 4 个向量
+2026-04-25 13:27:13 | INFO     | app | AI工具平台 关闭中...
+2026-04-25 13:27:15 | INFO     | app | Logger initialized. Level: DEBUG, Log file: D:\base-rag\logs\app_20260425.log
+2026-04-25 13:27:15 | INFO     | app | Logger initialized. Level: DEBUG, Log file: D:\base-rag\logs\app_20260425.log
+2026-04-25 13:27:15 | INFO     | app | AI工具平台 v0.1.0 启动中...
+2026-04-25 13:27:15 | INFO     | app | 配置: DEBUG=True, PORT=8000
+2026-04-25 13:27:15 | INFO     | app | 已注册插件数量: 0
+2026-04-25 13:27:15 | INFO     | app | AI工具平台 v0.1.0 启动中...
+2026-04-25 13:27:15 | INFO     | app | 配置: DEBUG=True, PORT=8000
+2026-04-25 13:27:15 | INFO     | app | 已注册插件数量: 0
+2026-04-25 13:27:15 | INFO     | app | Loaded 4 vector records
+2026-04-25 13:27:15 | INFO     | app | RAG服务初始化完成: 1 个文档, 4 个向量
+2026-04-25 13:27:15 | INFO     | app | Loaded 4 vector records
+2026-04-25 13:27:15 | INFO     | app | RAG服务初始化完成: 1 个文档, 4 个向量
+2026-04-25 13:29:36 | INFO     | app | Logger initialized. Level: DEBUG, Log file: D:\base-rag\logs\app_20260425.log
+2026-04-25 13:29:37 | INFO     | app | AI工具平台 v0.1.0 启动中...
+2026-04-25 13:29:37 | INFO     | app | 配置: DEBUG=True, PORT=8000
+2026-04-25 13:29:37 | INFO     | app | 已注册插件数量: 0
+2026-04-25 13:29:37 | INFO     | app | Loaded 4 vector records
+2026-04-25 13:29:37 | INFO     | app | RAG服务初始化完成: 1 个文档, 4 个向量
+2026-04-25 13:29:50 | INFO     | app | 获取RAG配置
+2026-04-25 13:29:50 | INFO     | app | 获取文档列表
