@@ -10,6 +10,7 @@ from app.rag.chunker import TextChunker, DocumentChunk
 from app.rag.embedding import EmbeddingService
 from app.rag.vector_store import VectorStore, VectorRecord, SearchResult
 from app.rag.retriever import Retriever
+from app.rag.llm_service import LLMService, LLMResponse
 
 
 @dataclass
@@ -26,6 +27,7 @@ class RAGQueryResult:
     query: str
     results: List[SearchResult]
     context: str
+    answer: str
     metadata: Dict[str, Any]
 
 
@@ -35,6 +37,7 @@ class RAGService:
         self.embedding_service = EmbeddingService()
         self.vector_store = VectorStore()
         self.retriever = Retriever(self.vector_store)
+        self.llm_service = LLMService()
 
         self.docs_path = Path(settings.DOCUMENTS_PATH)
         self.docs_path.mkdir(parents=True, exist_ok=True)
@@ -148,6 +151,7 @@ class RAGService:
                 query="",
                 results=[],
                 context="",
+                answer="",
                 metadata={"error": "问题为空"}
             )
 
@@ -175,15 +179,22 @@ class RAGService:
 
         context = "\n\n---\n\n".join(context_parts)
 
+        logger.info(f"Calling LLM to generate answer for question: {question[:50]}...")
+        llm_response = await self.llm_service.generate(question, context)
+        logger.info(f"LLM generated answer, model: {llm_response.model}, tokens: {llm_response.tokens}")
+
         return RAGQueryResult(
             query=question,
             results=results,
             context=context,
+            answer=llm_response.content,
             metadata={
                 "total_results": len(results),
                 "top_k": top_k or settings.TOP_K,
                 "min_score": min_score or settings.MIN_SCORE,
-                "doc_ids_filtered": doc_ids is not None
+                "doc_ids_filtered": doc_ids is not None,
+                "llm_model": llm_response.model,
+                "llm_tokens": llm_response.tokens
             }
         )
 
@@ -224,6 +235,7 @@ class RAGService:
 
     async def close(self):
         await self.embedding_service.close()
+        await self.llm_service.close()
 
 
 rag_service: Optional[RAGService] = None

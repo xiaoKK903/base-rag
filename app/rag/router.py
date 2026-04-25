@@ -84,6 +84,7 @@ async def query_rag(request: QueryRequest):
             "query": result.query,
             "results": results_data,
             "context": result.context,
+            "answer": result.answer,
             "metadata": result.metadata
         })
 
@@ -130,6 +131,7 @@ async def query_rag_get(
             "query": result.query,
             "results": results_data,
             "context": result.context,
+            "answer": result.answer,
             "metadata": result.metadata
         })
 

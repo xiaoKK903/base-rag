@@ -390,6 +390,15 @@
             const div = document.createElement('div');
             div.className = 'message assistant';
 
+            let answerText = '';
+            if (data.answer) {
+                answerText = data.answer;
+            } else if (data.results && data.results.length > 0) {
+                answerText = '根据检索结果，最相关的文档片段已列出。';
+            } else {
+                answerText = '未检索到相关内容，请确保已上传文档且问题与文档内容相关。';
+            }
+
             let retrievalHtml = '';
             if (data.results && data.results.length > 0) {
                 retrievalHtml = `
@@ -409,17 +418,12 @@
                 `;
             }
 
-            let answerText = '根据检索结果，最相关的文档片段已列出。';
-            if (data.results && data.results.length === 0) {
-                answerText = '未检索到相关内容，请确保已上传文档且问题与文档内容相关。';
-            }
-
             div.innerHTML = `
                 <div class="message-avatar">AI</div>
                 <div class="message-content">
                     <div class="message-bubble">
+                        <div>${formatMarkdown(escapeHtml(answerText))}</div>
                         ${retrievalHtml}
-                        <div>${escapeHtml(answerText)}</div>
                     </div>
                     <div class="message-meta">${new Date().toLocaleTimeString()}</div>
                 </div>
@@ -481,6 +485,21 @@
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
+        }
+
+        function formatMarkdown(text) {
+            if (!text) return '';
+
+            let result = text;
+            result = result.replace(/\n/g, '<br>');
+
+            result = result.replace(/\*\*\*(.*?)\*\*\*/g, '<strong><em>$1</em></strong>');
+
+            result = result.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+            result = result.replace(/\*(.*?)\*/g, '<em>$1</em>');
+
+            return result;
         }
     </script>
 </body>
