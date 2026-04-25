@@ -1,9 +1,17 @@
-from fastapi import APIRouter, UploadFile, File, Form, Query
+from fastapi import APIRouter, UploadFile, File, Query
+from pydantic import BaseModel
 from typing import List, Optional
 from app.core import R, logger
 from app.rag.service import get_rag_service
 
 rag_router = APIRouter()
+
+
+class QueryRequest(BaseModel):
+    question: str
+    top_k: Optional[int] = None
+    min_score: Optional[float] = None
+    doc_ids: Optional[List[str]] = None
 
 
 @rag_router.post("/upload")
@@ -48,13 +56,50 @@ async def upload_document(
 
 
 @rag_router.post("/query")
-async def query_rag(
-    question: str = Form(..., description="用户问题"),
+async def query_rag(request: QueryRequest):
+    logger.info(f"RAG查询: {request.question}")
+
+    try:
+        rag_service = get_rag_service()
+        result = await rag_service.query(
+            question=request.question,
+            top_k=request.top_k,
+            min_score=request.min_score,
+            doc_ids=request.doc_ids
+        )
+
+        results_data = [
+            {
+                "doc_id": r.doc_id,
+                "doc_name": r.doc_name,
+                "chunk_index": r.chunk_index,
+                "text": r.text,
+                "score": r.score,
+                "metadata": r.metadata
+            }
+            for r in result.results
+        ]
+
+        return R.ok(data={
+            "query": result.query,
+            "results": results_data,
+            "context": result.context,
+            "metadata": result.metadata
+        })
+
+    except Exception as e:
+        logger.error(f"RAG查询失败: {e}")
+        return R.fail(message=f"查询失败: {str(e)}")
+
+
+@rag_router.get("/query")
+async def query_rag_get(
+    question: str = Query(..., description="用户问题"),
     top_k: Optional[int] = Query(None, description="返回结果数量"),
     min_score: Optional[float] = Query(None, description="最低相似度分数"),
     doc_ids: Optional[str] = Query(None, description="指定文档ID列表，逗号分隔")
 ):
-    logger.info(f"RAG查询: {question}")
+    logger.info(f"RAG查询(GET): {question}")
 
     doc_id_list = None
     if doc_ids:
@@ -138,5 +183,6 @@ async def get_stats():
         "total_docs": rag_service.get_document_count(),
         "total_vectors": rag_service.get_vector_count(),
         "chunk_size": 500,
-        "chunk_overlap": 100
+        "chunk_overlap": 100,
+        "vector_store": "json_local"
     })
