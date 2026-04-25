@@ -202,7 +202,7 @@
 
         async function loadDocuments() {
             try {
-                const response = await App.get(`${API_BASE}/documents`);
+                const response = await App.get(`${API_BASE}/documents`, { showLoading: false });
                 if (isSuccess(response)) {
                     documents = response.data?.documents || [];
                     updateDocList();
@@ -355,7 +355,7 @@
             const typingEl = addTypingIndicator();
 
             try {
-                const result = await App.post(`${API_BASE}/query`, requestBody);
+                const result = await App.post(`${API_BASE}/query`, requestBody, { showLoading: false });
 
                 typingEl.remove();
 
