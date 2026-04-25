@@ -58,3 +58,33 @@
 2026-04-25 10:38:27 | INFO     | app | 配置: DEBUG=True, PORT=8000
 2026-04-25 10:38:27 | INFO     | app | 已注册插件数量: 0
 2026-04-25 10:38:27 | INFO     | app | RAG服务初始化完成: 0 个文档, 0 个向量
+2026-04-25 10:42:41 | INFO     | app | 健康检查请求
+2026-04-25 10:44:45 | INFO     | app | Logger initialized. Level: DEBUG, Log file: D:\base-rag\logs\app_20260425.log
+2026-04-25 10:44:45 | INFO     | app | AI工具平台 v0.1.0 启动中...
+2026-04-25 10:44:45 | INFO     | app | 配置: DEBUG=True, PORT=8000
+2026-04-25 10:44:45 | INFO     | app | 已注册插件数量: 0
+2026-04-25 10:44:45 | INFO     | app | RAG服务初始化完成: 0 个文档, 0 个向量
+2026-04-25 10:44:54 | INFO     | app | 健康检查请求
+2026-04-25 10:52:10 | INFO     | app | 上传文档: faq.md
+2026-04-25 10:52:10 | INFO     | app | Document split into 4 chunks
+2026-04-25 10:52:10 | INFO     | app | Calling embedding API: 4 texts
+2026-04-25 10:52:12 | ERROR    | app | Embedding API error: Client error '400 Bad Request' for url 'https://dashscope.aliyuncs.com/compatible-mode/v1/embeddings'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400
+2026-04-25 10:52:12 | ERROR    | app | 上传文档失败: Embedding API failed: Client error '400 Bad Request' for url 'https://dashscope.aliyuncs.com/compatible-mode/v1/embeddings'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400
+2026-04-25 10:58:10 | INFO     | app | AI工具平台 关闭中...
+2026-04-25 10:58:12 | INFO     | app | Logger initialized. Level: DEBUG, Log file: D:\base-rag\logs\app_20260425.log
+2026-04-25 10:58:12 | INFO     | app | AI工具平台 v0.1.0 启动中...
+2026-04-25 10:58:12 | INFO     | app | 配置: DEBUG=True, PORT=8000
+2026-04-25 10:58:12 | INFO     | app | 已注册插件数量: 0
+2026-04-25 10:58:12 | INFO     | app | RAG服务初始化完成: 0 个文档, 0 个向量
+2026-04-25 10:58:43 | INFO     | app | 获取文档列表
+2026-04-25 11:00:32 | INFO     | app | 获取文档列表
+2026-04-25 11:00:36 | INFO     | app | 上传文档: faq.md
+2026-04-25 11:00:36 | INFO     | app | Document split into 4 chunks
+2026-04-25 11:00:36 | INFO     | app | Calling embedding API: 4 texts, model: text-embedding-v4
+2026-04-25 11:00:38 | INFO     | app | Embedding API response received successfully
+2026-04-25 11:00:38 | INFO     | app | Saved 4 vector records
+2026-04-25 11:00:38 | INFO     | app | Document faq.md uploaded with 4 vectors
+2026-04-25 11:00:38 | INFO     | app | 获取文档列表
+2026-04-25 11:00:48 | WARNING  | app | 请求参数验证失败: body.question: Field required
