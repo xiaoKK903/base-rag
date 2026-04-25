@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>插件工具 - AI工具平台</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <nav class="nav">
+        <a href="/">首页</a>
+        <a href="/tools" class="active">插件工具</a>
+        <a href="/settings">设置</a>
+    </nav>
+    <div class="container">
+        <div class="header">
+            <h1>插件工具</h1>
+            <p>选择需要的工具开始使用</p>
+        </div>
+        <div id="toolsContainer" class="tools-grid">
+            <div class="tool-card">
+                <h3>计算器</h3>
+                <p>基础数学计算工具</p>
+                <span class="badge placeholder">待开发</span>
+            </div>
+            <div class="tool-card">
+                <h3>文本处理</h3>
+                <p>文本格式化转换工具</p>
+                <span class="badge placeholder">待开发</span>
+            </div>
+            <div class="tool-card">
+                <h3>结构化AI</h3>
+                <p>结构化数据处理</p>
+                <span class="badge placeholder">待开发</span>
+            </div>
+            <div class="tool-card">
+                <h3>八字历法</h3>
+                <p>中国传统历法工具</p>
+                <span class="badge placeholder">待开发</span>
+            </div>
+        </div>
+    </div>
+    <script src="/static/js/app.js"></script>
+    <script>
+        async function loadPlugins() {
+            try {
+                const result = await App.get('/plugins', { showLoading: true });
+                console.log('Plugins loaded:', result.data);
+            } catch (e) {
+                console.log('No plugins registered yet');
+            }
+        }
+        document.addEventListener('DOMContentLoaded', loadPlugins);
+    </script>
+</body>
+</html>
