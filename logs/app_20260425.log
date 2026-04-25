@@ -553,3 +553,99 @@ For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/St
 2026-04-25 13:29:37 | INFO     | app | RAG服务初始化完成: 1 个文档, 4 个向量
 2026-04-25 13:29:50 | INFO     | app | 获取RAG配置
 2026-04-25 13:29:50 | INFO     | app | 获取文档列表
+2026-04-25 13:33:17 | INFO     | app | 获取RAG配置
+2026-04-25 13:33:17 | INFO     | app | 获取文档列表
+2026-04-25 13:33:33 | INFO     | app | RAG查询: 你好
+2026-04-25 13:33:33 | INFO     | app | Calling embedding API: 1 texts, model: text-embedding-v4
+2026-04-25 13:33:34 | INFO     | app | Embedding API response received successfully
+2026-04-25 13:33:34 | INFO     | app | Retrieved 0 results (top_k=5, min_score=0.5)
+2026-04-25 13:33:34 | INFO     | app | Built keyword index from 4 chunks
+2026-04-25 13:33:34 | INFO     | app | Calling LLM to generate answer for question: 你好...
+2026-04-25 13:33:34 | INFO     | app | Calling LLM API: qwen-turbo
+2026-04-25 13:33:35 | INFO     | app | LLM API response received successfully
+2026-04-25 13:33:35 | INFO     | app | LLM generated answer, model: qwen-turbo, tokens: 123
+2026-04-25 13:33:49 | INFO     | app | RAG查询: 注册
+2026-04-25 13:33:49 | INFO     | app | Calling embedding API: 1 texts, model: text-embedding-v4
+2026-04-25 13:33:49 | INFO     | app | Embedding API response received successfully
+2026-04-25 13:33:49 | INFO     | app | Retrieved 1 results (top_k=5, min_score=0.5)
+2026-04-25 13:33:49 | INFO     | app | Calling LLM to generate answer for question: 注册...
+2026-04-25 13:33:49 | INFO     | app | Calling LLM API: qwen-turbo
+2026-04-25 13:33:50 | INFO     | app | LLM API response received successfully
+2026-04-25 13:33:50 | INFO     | app | LLM generated answer, model: qwen-turbo, tokens: 435
+2026-04-25 13:34:01 | INFO     | app | RAG查询: 注册
+2026-04-25 13:34:01 | INFO     | app | Calling embedding API: 1 texts, model: text-embedding-v4
+2026-04-25 13:34:01 | INFO     | app | Embedding API response received successfully
+2026-04-25 13:34:01 | INFO     | app | Retrieved 1 results (top_k=5, min_score=0.5)
+2026-04-25 13:34:01 | INFO     | app | Calling LLM to generate answer for question: 注册...
+2026-04-25 13:34:01 | INFO     | app | Calling LLM API: qwen-turbo
+2026-04-25 13:34:02 | INFO     | app | LLM API response received successfully
+2026-04-25 13:34:02 | INFO     | app | LLM generated answer, model: qwen-turbo, tokens: 435
+2026-04-25 13:34:20 | INFO     | app | RAG查询: 退款
+2026-04-25 13:34:20 | INFO     | app | Calling embedding API: 1 texts, model: text-embedding-v4
+2026-04-25 13:34:20 | INFO     | app | Embedding API response received successfully
+2026-04-25 13:34:20 | INFO     | app | Retrieved 1 results (top_k=5, min_score=0.5)
+2026-04-25 13:34:20 | INFO     | app | Calling LLM to generate answer for question: 退款...
+2026-04-25 13:34:20 | INFO     | app | Calling LLM API: qwen-turbo
+2026-04-25 13:34:21 | INFO     | app | LLM API response received successfully
+2026-04-25 13:34:21 | INFO     | app | LLM generated answer, model: qwen-turbo, tokens: 511
+2026-04-25 13:34:28 | INFO     | app | RAG查询: 注册
+2026-04-25 13:34:28 | INFO     | app | Calling embedding API: 1 texts, model: text-embedding-v4
+2026-04-25 13:34:28 | INFO     | app | Embedding API response received successfully
+2026-04-25 13:34:28 | INFO     | app | Retrieved 1 results (top_k=5, min_score=0.5)
+2026-04-25 13:34:28 | INFO     | app | Calling LLM to generate answer for question: 注册...
+2026-04-25 13:34:28 | INFO     | app | Calling LLM API: qwen-turbo
+2026-04-25 13:34:29 | INFO     | app | LLM API response received successfully
+2026-04-25 13:34:29 | INFO     | app | LLM generated answer, model: qwen-turbo, tokens: 435
+2026-04-25 13:34:42 | INFO     | app | RAG查询: 退款
+2026-04-25 13:34:42 | INFO     | app | Calling embedding API: 1 texts, model: text-embedding-v4
+2026-04-25 13:34:43 | INFO     | app | Embedding API response received successfully
+2026-04-25 13:34:43 | INFO     | app | Retrieved 1 results (top_k=5, min_score=0.5)
+2026-04-25 13:34:43 | INFO     | app | Calling LLM to generate answer for question: 退款...
+2026-04-25 13:34:43 | INFO     | app | Calling LLM API: qwen-turbo
+2026-04-25 13:34:44 | INFO     | app | LLM API response received successfully
+2026-04-25 13:34:44 | INFO     | app | LLM generated answer, model: qwen-turbo, tokens: 511
+2026-04-25 13:40:03 | INFO     | app | AI工具平台 关闭中...
+2026-04-25 13:40:03 | INFO     | app | AI工具平台 关闭中...
+2026-04-25 13:40:05 | INFO     | app | Logger initialized. Level: DEBUG, Log file: D:\base-rag\logs\app_20260425.log
+2026-04-25 13:40:05 | INFO     | app | Logger initialized. Level: DEBUG, Log file: D:\base-rag\logs\app_20260425.log
+2026-04-25 13:40:05 | INFO     | app | AI工具平台 v0.1.0 启动中...
+2026-04-25 13:40:05 | INFO     | app | 配置: DEBUG=True, PORT=8000
+2026-04-25 13:40:05 | INFO     | app | 已注册插件数量: 0
+2026-04-25 13:40:05 | INFO     | app | Loaded 4 vector records
+2026-04-25 13:40:05 | INFO     | app | RAG服务初始化完成: 1 个文档, 4 个向量
+2026-04-25 13:40:05 | INFO     | app | AI工具平台 v0.1.0 启动中...
+2026-04-25 13:40:05 | INFO     | app | 配置: DEBUG=True, PORT=8000
+2026-04-25 13:40:05 | INFO     | app | 已注册插件数量: 0
+2026-04-25 13:40:05 | INFO     | app | Loaded 4 vector records
+2026-04-25 13:40:05 | INFO     | app | RAG服务初始化完成: 1 个文档, 4 个向量
+2026-04-25 13:43:58 | INFO     | app | 获取文档列表
+2026-04-25 13:43:58 | INFO     | app | 获取RAG配置
+2026-04-25 13:44:11 | INFO     | app | 获取插件列表: category=None, include_disabled=False
+2026-04-25 13:44:12 | INFO     | app | 健康检查请求
+2026-04-25 13:44:14 | INFO     | app | 获取文档列表
+2026-04-25 13:44:14 | INFO     | app | 获取RAG配置
+2026-04-25 13:44:27 | INFO     | app | RAG查询: 你好
+2026-04-25 13:44:27 | INFO     | app | Calling embedding API: 1 texts, model: text-embedding-v4
+2026-04-25 13:44:29 | INFO     | app | Embedding API response received successfully
+2026-04-25 13:44:29 | INFO     | app | Retrieved 0 results (top_k=5, min_score=0.5)
+2026-04-25 13:44:29 | INFO     | app | Built keyword index from 4 chunks
+2026-04-25 13:44:29 | INFO     | app | Calling LLM to generate answer for question: 你好...
+2026-04-25 13:44:29 | INFO     | app | Calling LLM API: qwen-turbo
+2026-04-25 13:44:30 | INFO     | app | LLM API response received successfully
+2026-04-25 13:44:30 | INFO     | app | LLM generated answer, model: qwen-turbo, tokens: 270
+2026-04-25 13:44:32 | INFO     | app | RAG查询: 注册
+2026-04-25 13:44:32 | INFO     | app | Calling embedding API: 1 texts, model: text-embedding-v4
+2026-04-25 13:44:32 | INFO     | app | Embedding API response received successfully
+2026-04-25 13:44:32 | INFO     | app | Retrieved 1 results (top_k=5, min_score=0.5)
+2026-04-25 13:44:32 | INFO     | app | Calling LLM to generate answer for question: 注册...
+2026-04-25 13:44:32 | INFO     | app | Calling LLM API: qwen-turbo
+2026-04-25 13:44:33 | INFO     | app | LLM API response received successfully
+2026-04-25 13:44:33 | INFO     | app | LLM generated answer, model: qwen-turbo, tokens: 589
+2026-04-25 13:45:13 | INFO     | app | RAG查询: 注--册
+2026-04-25 13:45:13 | INFO     | app | Calling embedding API: 1 texts, model: text-embedding-v4
+2026-04-25 13:45:13 | INFO     | app | Embedding API response received successfully
+2026-04-25 13:45:13 | INFO     | app | Retrieved 1 results (top_k=5, min_score=0.5)
+2026-04-25 13:45:13 | INFO     | app | Calling LLM to generate answer for question: 注--册...
+2026-04-25 13:45:13 | INFO     | app | Calling LLM API: qwen-turbo
+2026-04-25 13:45:14 | INFO     | app | LLM API response received successfully
+2026-04-25 13:45:14 | INFO     | app | LLM generated answer, model: qwen-turbo, tokens: 609
