@@ -649,3 +649,67 @@ For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/St
 2026-04-25 13:45:13 | INFO     | app | Calling LLM API: qwen-turbo
 2026-04-25 13:45:14 | INFO     | app | LLM API response received successfully
 2026-04-25 13:45:14 | INFO     | app | LLM generated answer, model: qwen-turbo, tokens: 609
+2026-04-25 13:54:51 | INFO     | app | RAG查询: 你好呀
+2026-04-25 13:54:51 | INFO     | app | Calling embedding API: 1 texts, model: text-embedding-v4
+2026-04-25 13:54:51 | INFO     | app | Embedding API response received successfully
+2026-04-25 13:54:51 | INFO     | app | Retrieved 0 results (top_k=5, min_score=0.5)
+2026-04-25 13:54:51 | INFO     | app | Calling LLM to generate answer for question: 你好呀...
+2026-04-25 13:54:51 | INFO     | app | Calling LLM API: qwen-turbo
+2026-04-25 13:54:52 | INFO     | app | LLM API response received successfully
+2026-04-25 13:54:52 | INFO     | app | LLM generated answer, model: qwen-turbo, tokens: 271
+2026-04-25 13:56:24 | INFO     | app | AI工具平台 关闭中...
+2026-04-25 13:56:24 | INFO     | app | AI工具平台 关闭中...
+2026-04-25 13:56:25 | INFO     | app | Logger initialized. Level: DEBUG, Log file: D:\base-rag\logs\app_20260425.log
+2026-04-25 13:56:25 | INFO     | app | Logger initialized. Level: DEBUG, Log file: D:\base-rag\logs\app_20260425.log
+2026-04-25 13:56:26 | INFO     | app | AI工具平台 v0.1.0 启动中...
+2026-04-25 13:56:26 | INFO     | app | 配置: DEBUG=True, PORT=8000
+2026-04-25 13:56:26 | INFO     | app | 已注册插件数量: 0
+2026-04-25 13:56:26 | INFO     | app | Loaded 4 vector records
+2026-04-25 13:56:26 | INFO     | app | RAG服务初始化完成: 1 个文档, 4 个向量
+2026-04-25 13:56:26 | INFO     | app | AI工具平台 v0.1.0 启动中...
+2026-04-25 13:56:26 | INFO     | app | 配置: DEBUG=True, PORT=8000
+2026-04-25 13:56:26 | INFO     | app | 已注册插件数量: 0
+2026-04-25 13:56:26 | INFO     | app | Loaded 4 vector records
+2026-04-25 13:56:26 | INFO     | app | RAG服务初始化完成: 1 个文档, 4 个向量
+2026-04-25 13:57:00 | INFO     | app | AI工具平台 关闭中...
+2026-04-25 13:57:00 | INFO     | app | AI工具平台 关闭中...
+2026-04-25 13:57:01 | INFO     | app | Logger initialized. Level: DEBUG, Log file: D:\base-rag\logs\app_20260425.log
+2026-04-25 13:57:01 | INFO     | app | Logger initialized. Level: DEBUG, Log file: D:\base-rag\logs\app_20260425.log
+2026-04-25 13:57:02 | INFO     | app | AI工具平台 v0.1.0 启动中...
+2026-04-25 13:57:02 | INFO     | app | 配置: DEBUG=True, PORT=8000
+2026-04-25 13:57:02 | INFO     | app | 已注册插件数量: 0
+2026-04-25 13:57:02 | INFO     | app | Loaded 4 vector records
+2026-04-25 13:57:02 | INFO     | app | RAG服务初始化完成: 1 个文档, 4 个向量
+2026-04-25 13:57:02 | INFO     | app | AI工具平台 v0.1.0 启动中...
+2026-04-25 13:57:02 | INFO     | app | 配置: DEBUG=True, PORT=8000
+2026-04-25 13:57:02 | INFO     | app | 已注册插件数量: 0
+2026-04-25 13:57:02 | INFO     | app | Loaded 4 vector records
+2026-04-25 13:57:02 | INFO     | app | RAG服务初始化完成: 1 个文档, 4 个向量
+2026-04-25 13:58:35 | INFO     | app | AI工具平台 关闭中...
+2026-04-25 13:58:35 | INFO     | app | AI工具平台 关闭中...
+2026-04-25 13:58:37 | INFO     | app | Logger initialized. Level: DEBUG, Log file: D:\base-rag\logs\app_20260425.log
+2026-04-25 13:58:37 | INFO     | app | Logger initialized. Level: DEBUG, Log file: D:\base-rag\logs\app_20260425.log
+2026-04-25 13:58:37 | INFO     | app | AI工具平台 v0.1.0 启动中...
+2026-04-25 13:58:37 | INFO     | app | 配置: DEBUG=True, PORT=8000
+2026-04-25 13:58:37 | INFO     | app | 已注册插件数量: 0
+2026-04-25 13:58:37 | INFO     | app | Loaded 4 vector records
+2026-04-25 13:58:37 | INFO     | app | RAG服务初始化完成: 1 个文档, 4 个向量
+2026-04-25 13:58:37 | INFO     | app | AI工具平台 v0.1.0 启动中...
+2026-04-25 13:58:37 | INFO     | app | 配置: DEBUG=True, PORT=8000
+2026-04-25 13:58:37 | INFO     | app | 已注册插件数量: 0
+2026-04-25 13:58:37 | INFO     | app | Loaded 4 vector records
+2026-04-25 13:58:37 | INFO     | app | RAG服务初始化完成: 1 个文档, 4 个向量
+2026-04-25 13:58:41 | INFO     | app | AI工具平台 关闭中...
+2026-04-25 13:58:42 | INFO     | app | AI工具平台 关闭中...
+2026-04-25 13:58:43 | INFO     | app | Logger initialized. Level: DEBUG, Log file: D:\base-rag\logs\app_20260425.log
+2026-04-25 13:58:43 | INFO     | app | Logger initialized. Level: DEBUG, Log file: D:\base-rag\logs\app_20260425.log
+2026-04-25 13:58:43 | INFO     | app | AI工具平台 v0.1.0 启动中...
+2026-04-25 13:58:43 | INFO     | app | 配置: DEBUG=True, PORT=8000
+2026-04-25 13:58:43 | INFO     | app | 已注册插件数量: 0
+2026-04-25 13:58:43 | INFO     | app | Loaded 4 vector records
+2026-04-25 13:58:43 | INFO     | app | RAG服务初始化完成: 1 个文档, 4 个向量
+2026-04-25 13:58:43 | INFO     | app | AI工具平台 v0.1.0 启动中...
+2026-04-25 13:58:43 | INFO     | app | 配置: DEBUG=True, PORT=8000
+2026-04-25 13:58:43 | INFO     | app | 已注册插件数量: 0
+2026-04-25 13:58:43 | INFO     | app | Loaded 4 vector records
+2026-04-25 13:58:43 | INFO     | app | RAG服务初始化完成: 1 个文档, 4 个向量

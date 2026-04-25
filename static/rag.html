@@ -43,6 +43,29 @@
             justify-content: center;
         }
         
+        .panel-float-btn {
+            position: fixed;
+            top: 70px;
+            right: 20px;
+            width: 48px;
+            height: 48px;
+            background: var(--config-bg);
+            border: 1px solid var(--config-border);
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+            z-index: 9998;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+            transition: transform 0.2s;
+        }
+        
+        .panel-float-btn:hover {
+            transform: scale(1.1);
+        }
+        
         .config-header {
             padding: 10px 14px;
             background: var(--config-header-bg);
@@ -426,6 +449,8 @@
         </div>
     </div>
 
+    <div class="panel-float-btn" id="panelFloatBtn" onclick="showConfigPanel()">⚙️</div>
+
     <div class="config-panel" id="configPanel">
         <div class="config-header" id="configHeader">
             <div class="config-toggle">
@@ -609,7 +634,27 @@
         
         function hideConfigPanel() {
             const panel = document.getElementById('configPanel');
+            const floatBtn = document.getElementById('panelFloatBtn');
+            const chatArea = document.getElementById('chatArea');
+            
             panel.style.display = 'none';
+            floatBtn.style.display = 'flex';
+            chatArea.classList.remove('panel-collapsed');
+            isPanelCollapsed = false;
+        }
+        
+        function showConfigPanel() {
+            const panel = document.getElementById('configPanel');
+            const floatBtn = document.getElementById('panelFloatBtn');
+            const chatArea = document.getElementById('chatArea');
+            
+            panel.style.display = 'flex';
+            floatBtn.style.display = 'none';
+            
+            if (isPanelCollapsed) {
+                panel.classList.add('collapsed');
+                chatArea.classList.add('panel-collapsed');
+            }
         }
 
         async function loadConfig() {
